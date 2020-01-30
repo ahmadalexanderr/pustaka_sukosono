@@ -8,114 +8,44 @@ class Admin extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('User_model');
+        $this->load->model('Menu_model');
+        $this->load->model('Book_model');
     }
 
     public function index(){
-        $data['title'] = 'Anggota';
+        $data['title'] = 'Dashboard';
         $data['user'] = $this->User_model->logged_user();
         $data['all_user'] = $this->User_model->all_user();
-        $id = $this->uri->segment(3);
-        //$data['record'] = $this->User_model->user_record($id);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/index', $data);
+        $this->load->view('admin/member', $data);
         $this->load->view('templates/footer');
     }
 
-
-    // public function role(){
-    //     $data['title'] = 'Role';
-    //     $data['user'] = $this->User_model->logged_user();
-    //     $data['role'] = $this->db->get('user_role')->result_array();
-
-    //     $this->load->view('templates/header', $data);
-    //     $this->load->view('templates/sidebar', $data);
-    //     $this->load->view('templates/topbar', $data);
-    //     $this->load->view('admin/role', $data);
-    //     $this->load->view('templates/footer');
-    // }
-
-
-    // public function roleAccess($role_id){
-    //     $data['title'] = 'Role Access';
-    //     $data['user'] = $this->User_model->logged_user();
-    //     $data['role'] = $this->db->get_where('user_role', ['id' => $role_id])->row_array();
-
-    //     $this->db->where('id !=', 1);
-    //     $data['menu'] = $this->db->get('user_menu')->result_array();
-
-    //     $this->load->view('templates/header', $data);
-    //     $this->load->view('templates/sidebar', $data);
-    //     $this->load->view('templates/topbar', $data);
-    //     $this->load->view('admin/role-access', $data);
-    //     $this->load->view('templates/footer');
-    // }
-
-    public function changeAccess(){
-        $menu_id = $this->input->post('menuId');
-        $role_id = $this->input->post('roleId');
-
-        $data = [
-            'role_id' => $role_id,
-            'menu_id' => $menu_id
-        ];
-
-        $result = $this->db->get_where('user_access_menu', $data);
-
-        if ($result->num_rows() < 1) {
-            $this->db->insert('user_access_menu', $data);
-        } else {
-            $this->db->delete('user_access_menu', $data);
-        }
-
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Akses berubah!</div>');
-    }
-
-    public function edit(){
-        $data['title'] = 'Anggota';
+    public function member(){
+        $data['title'] = 'Dashboard';
         $data['user'] = $this->User_model->logged_user();
+        $id = $this->uri->segment(3);
+        $data['record'] = $this->User_model->get_user_id($id);
+        $data['menuname'] = $this->Menu_model->get_menu();
 
-        $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
+        $this->form_validation->set_rules('role_id', 'Role', 'required');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('user/edit', $data);
+            $this->load->view('admin/profile', $data);
             $this->load->view('templates/footer');
         } else {
-            $name = $this->input->post('name');
-            $email = $this->input->post('email');
-
-            // cek jika ada gambar yang akan diupload
-            $upload_image = $_FILES['image']['name'];
-
-            if ($upload_image) {
-                $config['allowed_types'] = 'gif|jpg|png|jpeg';
-                $config['max_size']      = '2048';
-                $config['upload_path'] = './assets/img/profile/';
-
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload('image')) {
-                    $old_image = $data['user']['image'];
-                    if ($old_image != 'default.jpg') {
-                        unlink(FCPATH . 'assets/img/profile/' . $old_image);
-                    }
-                    $new_image = $this->upload->data('file_name');
-                    $this->db->set('image', $new_image);
-                } else {
-                    echo $this->upload->display_errors();
-                }
-            }
-
-            $this->db->set('name', $name);
-            $this->db->where('email', $email);
-            $this->db->update('user');
-
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Profile berhasil diperbarui!</div>');
-            redirect('user/profile');
+            $data = array(
+                'role_id' => $this->input->post('role_id'),
+            );
+            $this->db->where('id', $id);
+            $this->db->update('user', $data);
+            $this->session->set_flashdata('message',  '<div class="alert alert-success" role="alert"> Hak akses user berhasil diperbarui </div>');
+            redirect('admin');
         }
     }
 
@@ -124,5 +54,68 @@ class Admin extends CI_Controller
         $this->User_model->delete_user($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anggota terhapus!</div>');
         redirect('admin');
+    }
+
+    public function book_edit(){
+        $data['title'] = 'Data Buku';
+        $data['user'] = $this->User_model->logged_user();
+        $id = $this->uri->segment(3);
+        $data['record'] = $this->Book_model->get_book_id($id);
+        $data['category'] = $this->Book_model->get_category();
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('author', 'Author', 'required');
+        $this->form_validation->set_rules('year', 'Year', 'required');
+        $this->form_validation->set_rules('category_id', 'Category', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/book_edit', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $data = [
+                'title' => $this->input->post('title'),
+                'author' => $this->input->post('author'),
+                'year' => $this->input->post('year'),
+                'category_id' => $this->input->post('category_id')
+            ];
+            $this->db->where('id', $id);
+            $this->db->update('book', $data);
+            $this->session->set_flashdata('message',  '<div class="alert alert-success" role="alert"> Data buku berhasil diperbarui </div>');
+            redirect('user/book');
+        }
+    }
+
+    public function book_delete(){
+        $id = $this->uri->segment(3);
+        $this->Book_model->delete_book($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku terhapus!</div>');
+        redirect('user/book'); 
+    }
+
+    public function category_edit(){
+        $data['title'] = 'Kategori';
+        $data['user'] = $this->User_model->logged_user();
+        $id = $this->uri->segment(3);
+        $data['record'] = $this->Book_model->get_category_id($id);
+        $this->form_validation->set_rules('category', 'Category', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/category_edit', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $data = [
+                'category' => $this->input->post('category')
+            ];
+            $this->db->where('id', $id);
+            $this->db->update('book_category', $data);
+            $this->session->set_flashdata('message',  '<div class="alert alert-success" role="alert"> Kategori berhasil diperbarui </div>');
+            redirect('user/category');
+        }
     }
 }

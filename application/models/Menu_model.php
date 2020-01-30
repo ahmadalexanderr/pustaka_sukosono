@@ -1,8 +1,11 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Menu_model extends CI_Model
-{
+class Menu_model extends CI_Model{
+    public function get_menu(){
+        $query = $this->db->query("SELECT * FROM user_menu")->result_array();
+        return $query;
+    }
     public function getSubMenu()
     {
         $query = "SELECT `user_sub_menu`.*, `user_menu`.`menu`
