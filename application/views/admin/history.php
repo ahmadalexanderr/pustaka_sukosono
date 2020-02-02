@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <h1 class="h3 mb-4 text-gray-800"><?= $title.' '.$user['name']; ?></h1>
     
 
     <div class="row">
@@ -19,27 +19,25 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Member since</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Access</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Buku</th>
+                        <th scope="col">Tanggal Peminjaman</th>
+                        <th scope="col">Jatuh Tempo Pengembalian</th>
+                        <th scope="col">Tanggal Pengembalian</th>
+                        <th scope="col">Peminjam</th>  
+                        <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($all_user as $u) : ?>
+                    <?php foreach ($record as $r) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
-                        <td><?= $u['name']; ?></td>
-                        <td><?= $u['email']; ?></td>
-                        <td><?= date('d F Y', $u['date_created']); ?></td>
-                        <td><?= $u['activation']; ?></td>
-                        <td><?= $u['menu']; ?></td>
+                        <td><?= $r['title']; ?></td>
+                        <td><?= date('d F Y', $r['taken']); ?></td>
+                        <td><?= date('d F Y', $r['due']); ?></td>
+                        <td><?= date('d F Y', $r['return']); ?></td>
                         <td>
-                            <a href="<?= base_url('admin/member/'.$u['id']) ?>" class="badge badge-success">edit</a>
-                            <a href="<?= base_url('admin/delete/'.$u['id']); ?>" class="badge badge-danger">delete</a>
+                            <a href="<?= base_url('admin/confirm/'.$r['id']) ?>" class="badge badge-success">Konfirmasi</a>
                         </td>
                     </tr>
                     <?php $i++; ?>

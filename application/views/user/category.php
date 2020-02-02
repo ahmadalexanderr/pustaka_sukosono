@@ -28,10 +28,10 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Total Book</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Total Buku</th>
                         <?php if ($this->session->userdata('role_id') == 1){ ?>
-                        <th scope="col">Action</th>
+                        <th scope="col">Aksi</th>
                         <?php } ?>
                     </tr>
                 </thead>

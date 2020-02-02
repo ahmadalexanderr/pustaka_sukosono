@@ -13,8 +13,20 @@ class User_model extends CI_Model{
         return $query;
     }
 
+    // public function logged_user(){
+    //     $query = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    //     return $query;
+    // }
+
     public function logged_user(){
-        $query = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $email = $this->session->userdata('email');
+        $query = $this->db->query("SELECT u.name, u.email, u.image, u.password, u.date_created, o.organization, ud.company, ud.address, ud.contact FROM user as u LEFT JOIN user_organization as o ON u.organization_id = o.organization_id LEFT JOIN user_detail as ud ON u.email = ud.email WHERE u.email = '$email'")->row_array();
+        return $query;
+    }
+
+    public function user_profile(){
+        $email = $this->session->userdata('email');
+        $query = $this->db->query("SELECT u.name, u.email, u.image, u.password, u.date_created, o.organization, ud.company, ud.address, ud.contact FROM user as u LEFT JOIN user_organization as o ON u.organization_id = o.organization_id LEFT JOIN user_detail as ud ON u.email = ud.email WHERE u.email = '$email'");
         return $query;
     }
 
@@ -28,5 +40,10 @@ class User_model extends CI_Model{
         $id = $this->uri->segment(3);
         $query = $this->db->delete('user', ['id'=>$id]);  
         return $query;  
+    }
+
+    public function organization(){
+        $query = $this->db->query("SELECT * FROM user_organization")->result_array();
+        return $query;
     }
 }

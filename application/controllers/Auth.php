@@ -43,7 +43,7 @@ class Auth extends CI_Controller {
                     if ($user['role_id'] == 1) {
                         redirect('admin');
                     } else {
-                        redirect('user');
+                        redirect('user/book');
                     }
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah</div>');
@@ -73,8 +73,10 @@ class Auth extends CI_Controller {
             'min_length' => 'Password terlalu pendek!'
         ]);
         $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
+        $this->form_validation->set_rules('organization_id', 'Organisasi');
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Registration';
+            $data['org'] = $this->User_model->organization();
             $this->load->view('templates/auth_header', $data);
             $this->load->view('auth/registration', $data);
             $this->load->view('templates/auth_footer');
@@ -87,7 +89,8 @@ class Auth extends CI_Controller {
                 'password' => md5($this->input->post('password1')),
                 'role_id' => 2,
                 'is_active' => 0,
-                'date_created' => time()
+                'date_created' => time(),
+                'organization_id' => $this->input->post('organization_id')
             ];
 
             // siapkan token

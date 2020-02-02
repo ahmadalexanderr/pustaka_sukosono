@@ -13,7 +13,7 @@ class Admin extends CI_Controller
     }
 
     public function index(){
-        $data['title'] = 'Dashboard';
+        $data['title'] = 'Member';
         $data['user'] = $this->User_model->logged_user();
         $data['all_user'] = $this->User_model->all_user();
         $this->load->view('templates/header', $data);
@@ -24,7 +24,7 @@ class Admin extends CI_Controller
     }
 
     public function member(){
-        $data['title'] = 'Dashboard';
+        $data['title'] = 'Member';
         $data['user'] = $this->User_model->logged_user();
         $id = $this->uri->segment(3);
         $data['record'] = $this->User_model->get_user_id($id);
@@ -117,5 +117,40 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('message',  '<div class="alert alert-success" role="alert"> Kategori berhasil diperbarui </div>');
             redirect('user/category');
         }
+    }
+
+    public function return(){
+        $data['title'] = 'Pengembalian Buku';
+        $data['user'] = $this->User_model->logged_user();
+        $data['record'] = $this->Book_model->return_book();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/history', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function confirm_return(){
+        $id = $this->uri->segment(3);
+        $time = time();
+        $query = $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.return = $time WHERE borrow.id = $id");
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        if ($data['return'] > $data['due']){
+            if($user['organization_id'] == 2){
+                $this->db->set('penalty', 350000);
+                $this->db->where('borrow.id', $id);
+                $this->db->update('borrow');
+            } else {
+                $this->db->set('penalty', 50000);
+                $this->db->where('borrow.id', $id);
+                $this->db->update('borrow');
+            }
+        } else {
+            $this->db->set('penalty', 0);
+            $this->db->where('borrow.id', $id);
+            $this->db->update('borrow'); 
+        }
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku Kembali!</div>');
+        redirect('admin/confirm');
     }
 }

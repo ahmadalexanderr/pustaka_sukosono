@@ -27,13 +27,13 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Unique Book ID</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Year</th>
-                        <th scope="col">Category</th>
+                        <th scope="col">Nomor Rack</th>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Penulis</th>
+                        <th scope="col">Tahun</th>
+                        <th scope="col">Kategori</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

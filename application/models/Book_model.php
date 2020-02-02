@@ -18,7 +18,7 @@ class Book_model extends CI_Model{
     }
 
     public function book_data(){
-        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id")->result_array();
+        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id ORDER BY b.title DESC")->result_array();
         return $query;
     }
 
@@ -42,13 +42,19 @@ class Book_model extends CI_Model{
         return $query;
     }
 
-     public function get_book_id($id){
+     public function get_book($id){
         $query = $this->db->get_where('book', ['id' => $id])->row_array();
         return $query;
     }
 
-    public function get_borrow($id){
-        $query = $this->db->query("SELECT b.id, b.title, d.company, d.address, d.contact, w.taken, w.due, w.return FROM book as b LEFT JOIN borrow as w ON b.id = w.book_id LEFT JOIN user as u ON w.email = u.email LEFT JOIN user_detail as d ON u.email = d.email WHERE b.id = $id")->row_array();
+    public function get_borrowed(){
+        $email = $this->session->userdata('email');
+        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, w.return, b.status_id, w.penalty, u.organization_id, w.confirm_id, c.confirm FROM user as u LEFT JOIN borrow as w ON u.email = w.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE w.email = '$email' ORDER BY w.id DESC")->result_array();
+        return $query;
+    }
+
+    public function return_book(){
+        $query = $this->db->query("SELECT b.title, w.taken, w.due, u.name, w.return ")->result_array();
         return $query;
     }
 

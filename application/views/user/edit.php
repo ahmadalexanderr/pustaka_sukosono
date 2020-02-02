@@ -22,6 +22,27 @@
                     <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>
+             <div class="form-group row">
+                <label for="company" class="col-sm-2 col-form-label">Instansi</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="company" name="company" value="<?= $user['company']; ?>">
+                    <?= form_error('company', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="address" class="col-sm-2 col-form-label">Alamat Instansi</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="address" name="address" value="<?= $user['address'];?>">
+                    <?= form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="contact" class="col-sm-2 col-form-label">Kontak</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="contact" name="contact" value="<?= $user['contact']; ?>">
+                    <?= form_error('contact', '<small class="text-danger pl-3">', '</small>'); ?>
+                </div>
+            </div>
             <div class="form-group row">
                 <div class="col-sm-2">Picture</div>
                 <div class="col-sm-10">

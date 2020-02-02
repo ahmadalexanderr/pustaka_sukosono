@@ -29,34 +29,6 @@
                     <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                 </div>
             </div>
-             <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="name" name="name" value="<?= $user['name'] ?>" readonly>
-                    <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="company" class="col-sm-2 col-form-label">Instansi</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="company" name="company" value="<?= $record['company'] ?>">
-                    <?= form_error('company', '<small class="text-danger pl-3">', '</small>'); ?>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="address" class="col-sm-2 col-form-label">Alamat Instansi</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="address" name="address" value="<?= $record['address'] ?>">
-                    <?= form_error('address', '<small class="text-danger pl-3">', '</small>'); ?>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="contact" class="col-sm-2 col-form-label">Kontak</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="contact" name="contact" value="<?= $record['contact'] ?>">
-                    <?= form_error('contact', '<small class="text-danger pl-3">', '</small>'); ?>
-                </div>
-            </div>
             <div class="form-group row justify-content-end">
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Add Request</button>

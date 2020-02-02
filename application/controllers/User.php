@@ -1,27 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User extends CI_Controller
-{
-    public function __construct()
-    {
+class User extends CI_Controller{
+    public function __construct(){
         parent::__construct();
         is_logged_in();
         $this->load->model('User_model');
         $this->load->model('Menu_model');
         $this->load->model('Book_model');
-    }
-
-    public function index()
-    {
-        $data['title'] = 'Dashboard';
-        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('user/index', $data);
-        $this->load->view('templates/footer');
     }
 
       public function profile(){
@@ -39,6 +25,9 @@ class User extends CI_Controller
         $data['user'] = $this->User_model->logged_user();
 
         $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
+        $this->form_validation->set_rules('company', 'Instansi', 'required|trim');
+        $this->form_validation->set_rules('address', 'Alamat Instansi', 'required|trim');
+        $this->form_validation->set_rules('contact', 'Kontak', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
@@ -49,7 +38,9 @@ class User extends CI_Controller
         } else {
             $name = $this->input->post('name');
             $email = $this->input->post('email');
-
+            $company = $this->input->post('company');
+            $address = $this->input->post('address');
+            $contact = $this->input->post('contact');
             // cek jika ada gambar yang akan diupload
             $upload_image = $_FILES['image']['name'];
 
@@ -60,7 +51,7 @@ class User extends CI_Controller
 
                 $this->load->library('upload', $config);
 
-                if ($this->upload->do_upload('image')) {
+                if ($this->upload->do_upload('image')){
                     $old_image = $data['user']['image'];
                     if ($old_image != 'default.jpg') {
                         unlink(FCPATH . 'assets/img/profile/' . $old_image);
@@ -72,15 +63,35 @@ class User extends CI_Controller
                 }
             }
 
-            $this->db->set('name', $name);
-            $this->db->where('email', $email);
-            $this->db->update('user');
-
+            $q = $this->db->get_where('user_detail', ['email' => $email]);
+            if ($q->row_array() > 0){
+                $this->db->set('name', $name);
+                $this->db->where('email', $email);
+                $this->db->update('user');
+                $this->db->set('company', $company);
+                $this->db->set('address', $address);
+                $this->db->set('contact', $contact);
+                $this->db->where('email', $email);
+                $this->db->update('user_detail');
+            } else {
+                $data = [
+                    'email' => $email,
+                    'company' => $company,
+                    'address' => $address,
+                    'contact' => $contact
+                ];
+                $this->db->insert('user_detail', $data);
+                $this->db->set('name', $name);
+                $this->db->where('email', $email);
+                $this->db->update('user');
+            }
+            // $this->db->set('name', $name);
+            // $this->db->where('email', $email);
+            // $this->db->update('user');
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Profile berhasil diperbarui!</div>');
             redirect('user/profile');
         }
     }
-
 
     public function changePassword(){
         $data['title'] = 'Change Password';
@@ -139,8 +150,8 @@ class User extends CI_Controller
             $this->load->view('user/addBook', $data);
             $this->load->view('templates/footer'); 
         } else {
-            $title = $this->input->userdata('title');
-            $author = $this->input->userdata('author');
+            $title = $this->input->post('title');
+            $author = $this->input->post('author');
             $year = $this->input->post('year');
             $category = $this->input->post('category_id');
             $status = $this->input->post('status_id');
@@ -175,10 +186,10 @@ class User extends CI_Controller
         $data['title'] = 'Data Buku';
         $data['user'] = $this->User_model->logged_user();
         $id = $this->uri->segment(3);
-        $data['record'] = $this->Book_model->get_borrow($id);
-        $this->form_validation->set_rules('company', 'Instansi', 'required|trim');
-        $this->form_validation->set_rules('address', 'Alamat Instansi', 'required|trim');
-        $this->form_validation->set_rules('contact', 'Kontak', 'required|trim');
+        $data['record'] = $this->Book_model->get_book($id);
+        $this->form_validation->set_rules('email', 'Email', 'required|trim');
+        $this->form_validation->set_rules('book_id', 'ID Buku', 'required');
+        $this->form_validation->set_rules('title', 'Judul Buku', 'required|trim');
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
@@ -187,16 +198,41 @@ class User extends CI_Controller
             $this->load->view('templates/footer');
         } else {
            $data = [
-                'email' => $this->input->post('email'),
-                'company' => $this->input->post('company'),
-                'address' => $this->input->post('address'),
-                'contact' => $this->input->post('contact')
+                 'email' => $this->input->post('email'),
+                 'book_id' => $this->input->post('book_id'),
+                 'taken' => time(),
+                 'due'=> time() + (3 * 24 * 60 * 60),
+                 'return' => 0,
+                 'penalty' => 0
            ];
-           $this->db->insert('user_detail', $data);
-           
+           $this->db->insert('borrow', $data);
+           $this->db->set('status_id', 1);
+           $this->db->where('id', $id);
+           $this->db->update('book');
            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Peminjaman berhasil!</div>');
            redirect('user/book'); 
         }
     }
 
+    public function history(){
+        $data['title'] = 'Peminjaman';
+        $data['user'] = $this->User_model->logged_user();
+        $data['record'] = $this->Book_model->get_borrowed();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/history', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function return_book(){
+        $id = $this->uri->segment(3);
+        $time = time();
+        $query = $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return = $time WHERE borrow.id = $id");
+        $this->db->set('confirm_id', 4);
+        $this->db->where('borrow.id', $id);
+        $this->db->update('borrow'); 
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku Kembali!</div>');
+        redirect('user/history');
+    }
 }
