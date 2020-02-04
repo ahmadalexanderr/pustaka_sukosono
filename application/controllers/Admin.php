@@ -130,27 +130,45 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function confirm_return(){
+    public function unconfirm(){
+        $id = $this->uri->segment(3);
+        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 1, borrow.penalty = 0, borrow.confirm_id = 0, borrow.return = 0 WHERE borrow.id = $id");
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pengembalian Ditolak!</div>');
+        redirect('admin/return'); 
+    }
+
+    public function confirm(){
         $id = $this->uri->segment(3);
         $time = time();
-        $query = $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.return = $time WHERE borrow.id = $id");
-        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        //$user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         if ($data['return'] > $data['due']){
             if($user['organization_id'] == 2){
-                $this->db->set('penalty', 350000);
-                $this->db->where('borrow.id', $id);
-                $this->db->update('borrow');
+                $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 350000, confirm_id = 2 WHERE borrow.id = $id");
             } else {
-                $this->db->set('penalty', 50000);
-                $this->db->where('borrow.id', $id);
-                $this->db->update('borrow');
+                $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 50000, confirm_id = 2 WHERE borrow.id = $id");
             }
         } else {
-            $this->db->set('penalty', 0);
-            $this->db->where('borrow.id', $id);
-            $this->db->update('borrow'); 
+            $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 0, confirm_id = 1 WHERE borrow.id = $id"); 
         }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku Kembali!</div>');
-        redirect('admin/confirm');
+        redirect('admin/return');
+    }
+
+    public function confirm_fee(){
+        $id = $this->uri->segment(3);
+        $this->db->query("UPDATE user INNER JOIN borrow ON user.email = borrow.email SET borrow.confirm_id = 3 WHERE user.id = $id");
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Denda Lunas</div>');
+        redirect('admin/penalty');
+    }
+
+    public function penalty(){
+        $data['title'] = 'Data Denda';
+        $data['user'] = $this->User_model->logged_user();
+        $data['record'] = $this->User_model->penalty();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/penalty', $data);
+        $this->load->view('templates/footer'); 
     }
 }

@@ -13,11 +13,6 @@ class User_model extends CI_Model{
         return $query;
     }
 
-    // public function logged_user(){
-    //     $query = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-    //     return $query;
-    // }
-
     public function logged_user(){
         $email = $this->session->userdata('email');
         $query = $this->db->query("SELECT u.name, u.email, u.image, u.password, u.date_created, o.organization, ud.company, ud.address, ud.contact FROM user as u LEFT JOIN user_organization as o ON u.organization_id = o.organization_id LEFT JOIN user_detail as ud ON u.email = ud.email WHERE u.email = '$email'")->row_array();
@@ -44,6 +39,23 @@ class User_model extends CI_Model{
 
     public function organization(){
         $query = $this->db->query("SELECT * FROM user_organization")->result_array();
+        return $query;
+    }
+
+    public function logged_penalty(){
+        $email = $this->session->userdata('email'); 
+        $array = ['c.confirm_id' => 2, 'w.email' => $email];
+        $this->db->select("sum(w.penalty) as 'penalty'");
+        $this->db->from('borrow w');
+        $this->db->join('confirmation c', 'c.confirm_id=w.confirm_id', 'inner');
+        $this->db->where($array);
+        $query = $this->db->get();
+        $result = $query->row()->penalty;
+        return $result;
+    }
+
+    public function penalty(){
+        $query = $this->db->query("SELECT u.id, u.name, b.title, u.email, SUM(w.penalty) as fee, w.confirm_id, c.confirm, w.return FROM user as u INNER JOIN borrow as w ON w.email = u.email INNER JOIN confirmation as c ON c.confirm_id = w.confirm_id INNER JOIN book as b ON b.id = w.book_id WHERE w.confirm_id = 2 OR w.confirm_id = 3 GROUP BY u.id, u.name, u.email, c.confirm, w.confirm_id, w.return, b.title ORDER BY w.return DESC")->result_array();
         return $query;
     }
 }

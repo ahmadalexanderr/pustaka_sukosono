@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800"><?= $title.' '.$user['name']; ?></h1>
+    <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
     
 
     <div class="row">
@@ -19,28 +19,31 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Buku</th>
-                        <th scope="col">Tanggal Peminjaman</th>
-                        <th scope="col">Jatuh Tempo Pengembalian</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Judul Buku</th> 
+                        <th scope="col">Jumlah Denda</th>
+                        <th scope="col">Terhitung Tanggal</th> 
                         <th scope="col">Status</th>
-                        <th scope="col">Aksi/Denda</th>
+                        <th scope="col">Aksi</th> 
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($record as $r) : ?>
+                    <?php foreach ($record as $u) : ?>
                     <tr>
                         <th scope="row"><?= $i; ?></th>
-                        <td><?= $r['title']; ?></td>
-                        <td><?= date('d F Y', $r['taken']); ?></td>
-                        <td><?= date('d F Y', $r['due']); ?></td>
-                        <td><?= $r['confirm']; ?></td> 
-                        <td>
-                        <?php if($r['return'] == 0 && $r['status_id'] == 1){ ?>
-                            <a href="<?= base_url('user/return_book/'.$r['id']) ?>" class="badge badge-success">Kembalikan Buku</a>
-                        <?php } else {?>
-                            <?= "Rp ".number_format($r['penalty'],0,',','.'); ?>,-
+                        <td><?= $u['name']; ?></td>
+                        <td><?= $u['title']; ?></td>
+                        <td><?= "Rp ".number_format($u['fee'],0,',','.'); ?>,-</td>
+                        <td><?= date('d F Y', $u['return']); ?></td>
+                        <td><?= $u['confirm'] ?></td>
+                        <?php if ($u['confirm_id'] == 2){ ?>
+                        <td><a href="<?= base_url('admin/confirm_fee/'.$u['id']) ?>" class="badge badge-success">Konfirmasi Pelunasan</a></td>
+                        <?php } else { ?>
+                        <td>Lunas</td>
                         <?php } ?>
+                        <td>
+ 
                         </td>
                     </tr>
                     <?php $i++; ?>

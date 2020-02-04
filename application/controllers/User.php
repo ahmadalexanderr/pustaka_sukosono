@@ -80,10 +80,10 @@ class User extends CI_Controller{
                     'address' => $address,
                     'contact' => $contact
                 ];
-                $this->db->insert('user_detail', $data);
                 $this->db->set('name', $name);
                 $this->db->where('email', $email);
                 $this->db->update('user');
+                $this->db->insert('user_detail', $data);
             }
             // $this->db->set('name', $name);
             // $this->db->where('email', $email);
@@ -132,6 +132,29 @@ class User extends CI_Controller{
     }
 
     public function book(){
+        $data['title'] = 'Data Buku';
+        $data['user'] = $this->User_model->logged_user();
+        $data['fee'] = $this->User_model->logged_penalty();
+        $email = $this->session->userdata('email');
+        $this->db->select("sum(w.penalty) as 'penalty'");
+        $this->db->from('borrow w');
+        $this->db->join('confirmation c', 'c.confirm_id=w.confirm_id', 'inner');
+        $array = ['c.confirm_id' => 2, 'w.email' => $email];
+        $this->db->where($array);
+        $query = $this->db->get();
+        $result = $query->row()->penalty;
+        if ($result > 0){
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('auth/penalty', $data);
+            $this->load->view('templates/footer'); 
+        } else {
+            $this->_book();
+        }
+    }
+
+    private function _book(){
        $data['title'] = 'Data Buku';
        $data['user'] = $this->User_model->logged_user();
        $data['books'] = $this->Book_model->book_data();
@@ -217,6 +240,7 @@ class User extends CI_Controller{
     public function history(){
         $data['title'] = 'Peminjaman';
         $data['user'] = $this->User_model->logged_user();
+        $id = $this->uri->segment(3);
         $data['record'] = $this->Book_model->get_borrowed();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -226,13 +250,10 @@ class User extends CI_Controller{
     }
 
     public function return_book(){
-        $id = $this->uri->segment(3);
         $time = time();
-        $query = $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return = $time WHERE borrow.id = $id");
-        $this->db->set('confirm_id', 4);
-        $this->db->where('borrow.id', $id);
-        $this->db->update('borrow'); 
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Buku Kembali!</div>');
+        $id = $this->uri->segment(3);
+        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return = $time, borrow.confirm_id = 4 WHERE borrow.id = $id");
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menunggu Konfirmasi Pengembalian Buku</div>');
         redirect('user/history');
     }
 }

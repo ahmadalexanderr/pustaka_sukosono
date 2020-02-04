@@ -54,7 +54,7 @@ class Book_model extends CI_Model{
     }
 
     public function return_book(){
-        $query = $this->db->query("SELECT b.title, w.taken, w.due, u.name, w.return ")->result_array();
+        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, u.name, w.return, w.confirm_id, c.confirm, w.penalty, b.status_id FROM borrow as w LEFT JOIN user as u ON w.email = u.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE b.status_id = 2 AND w.confirm_id = 4 ORDER BY w.id DESC")->result_array();
         return $query;
     }
 
