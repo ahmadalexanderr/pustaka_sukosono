@@ -14,7 +14,29 @@
             <?php endif; ?>
 
             <?= $this->session->flashdata('message'); ?>
+            
+            <?= form_open("admin/searchpenalty"); ?>
+                <select class="form-control form-control-user" name="search">
+                    <option value="">Cari Berdasarkan</option>
+                    <option value="name">Peminjam</option>
+                    <option value="title">Judul Buku</option>
+                   
+                    <option value="return">Tanggal Pengembalian</option>
+                    <option value="confirm">Status</option>
+                </select>
+                <input type="text" name="found" class="form-control form-control-user">
+                <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
+            <?= form_close(); ?>
 
+            <?php
+                if(isset($total)){
+                    if($search == ""){
+                        echo "Jumlah pencarian : " . $found . " : " . $total;
+                    } else {
+                        echo "Jumlah pencarian : " . $search . " = " . $found . " : " . $total;
+                    }
+                }
+            ?>
             <table class="table table-hover">
                 <thead>
                     <tr>

@@ -13,6 +13,30 @@
             </div>
             <?php endif; ?>
 
+              <?= form_open("admin/searchreturn"); ?>
+                <select class="form-control form-control-user" name="search">
+                    <option value="">Cari Berdasarkan</option>
+                    <option value="title">Judul Buku</option>
+                    <option value="taken">Tanggal Peminjaman</option>
+                    <option value="due">Jatuh Tempo</option>
+                    <option value="return">Tanggal Pengembalian</option>
+                    <option value="name">Peminjam</option>
+                    <option value="penalty">Denda</option>
+                </select>
+                <input type="text" name="found" class="form-control form-control-user">
+                <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
+            <?= form_close(); ?>
+
+            <?php
+                if(isset($total)){
+                    if($search == ""){
+                        echo "Jumlah pencarian : " . $found . " : " . $total;
+                    } else {
+                        echo "Jumlah pencarian : " . $search . " = " . $found . " : " . $total;
+                    }
+                }
+            ?>
+
             <?= $this->session->flashdata('message'); ?>
 
             <table class="table table-hover">

@@ -23,7 +23,6 @@
             <?php endif; ?>
 
             <?= $this->session->flashdata('message'); ?>
-
             <table class="table table-hover">
                 <thead>
                     <tr>

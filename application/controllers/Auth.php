@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require(APPPATH . 'third_party/faker/autoload.php');
 
 class Auth extends CI_Controller {
 
-	public function __construct()
-    {
+	public function __construct(){
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('User_model');
@@ -64,7 +64,11 @@ class Auth extends CI_Controller {
             redirect('user/book');
         }
         $email = $this->input->post('email');
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha|is_unique[user.name]',
+        [
+            'is_unique' => 'Username sudah terdaftar!',
+            'alpha' => 'Isi dengan huruf dan angka tanpa spasi!'
+        ]);
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'Email sudah terdaftar!'
         ]);
@@ -111,6 +115,46 @@ class Auth extends CI_Controller {
         }
     }
 
+    public function name_registration(){
+        if ($this->session->userdata('name')) {
+            redirect('user/book');
+        }
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha|is_unique[user.name]',
+        [
+            'is_unique' => 'Username sudah terdaftar!',
+            'alpha' => 'Isi dengan huruf dan angka tanpa spasi!'
+        ]);
+        
+        $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
+            'matches' => 'Password tidak cocok!',
+            'min_length' => 'Password terlalu pendek!'
+        ]);
+        $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
+        $this->form_validation->set_rules('organization_id', 'Organisasi');
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'Registration';
+            $data['org'] = $this->User_model->organization();
+            $this->load->view('templates/auth_header', $data);
+            $this->load->view('auth/name_registration', $data);
+            $this->load->view('templates/auth_footer');
+        } else {
+            $faker = Faker\Factory::create();
+               $data = [
+                'email' => $faker->email,
+                'name' => htmlspecialchars($this->input->post('name', true)),
+                'image' => 'default.jpg',
+                'password' => md5($this->input->post('password1')),
+                'role_id' => 2,
+                'is_active' => 0,
+                'date_created' => time(),
+                'organization_id' => $this->input->post('organization_id')
+            ];
+            $this->db->insert('user', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Akun Dibuat, harap tunggu aktivasi dari Admin</div>');
+            redirect('auth');
+        }
+    }
+
     private function _sendEmail($token, $type){
         $config = [
             'protocol'  => 'smtp',
@@ -125,7 +169,7 @@ class Auth extends CI_Controller {
 
         $this->email->initialize($config);
 
-        $this->email->from('pemdessukosono@gmail.com', 'Sukosono');
+        $this->email->from('pemdessukosono@gmail.com', 'sukosono');
         $this->email->to($this->input->post('email'));
 
         if ($type == 'verify') {
@@ -218,7 +262,7 @@ class Auth extends CI_Controller {
    public function logout(){
         $this->session->sess_destroy();
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda berhasil Log Out!</div>');
-        redirect('auth');
+        redirect('visitor');
     }
 
     public function blocked(){
@@ -275,6 +319,54 @@ class Auth extends CI_Controller {
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Password telah diperbarui, silahkan login</div>');
             redirect('auth');
+        }
+    }
+
+    public function name_login(){
+        if ($this->session->userdata('email')) {
+            redirect('user/book');
+        }
+        $this->form_validation->set_rules('name', 'name', 'trim|required|alpha');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        if ($this->form_validation->run()==false){
+            $data['title'] = 'Login';
+            $this->load->view('templates/auth_header', $data);
+            $this->load->view('auth/name_login', $data);
+            $this->load->view('templates/auth_footer');
+        } else {
+            $this->_name_login();
+        }
+    }
+    
+    private function _name_login(){
+        $name = $this->input->post('name');
+        $password = md5($this->input->post('password'));
+        $user = $this->User_model->name_login($name);
+        if ($user){
+            if($user['is_active'] == 1){
+                $MD5 = $user['password'];
+                if($MD5 == $password){
+                    $data = [
+                        'email' => $user['email'],
+                        'role_id' => $user['role_id']
+                    ];
+                    $this->session->set_userdata($data);
+                    if ($user['role_id'] == 1) {
+                        redirect('admin');
+                    } else {
+                        redirect('user/book');
+                    }
+                } else {
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password salah</div>');
+                    redirect('auth/name_login');
+                }
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User belum aktif</div>');
+                redirect('auth/name_login');
+            }
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User tidak terdaftar</div>');
+            redirect('auth/name_login');
         }
     }
 }

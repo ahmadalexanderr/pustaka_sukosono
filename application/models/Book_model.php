@@ -18,7 +18,7 @@ class Book_model extends CI_Model{
     }
 
     public function book_data(){
-        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id ORDER BY b.title DESC")->result_array();
+        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id ORDER BY c.category, b.year, b.title DESC")->result_array();
         return $query;
     }
 

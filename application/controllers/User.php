@@ -8,6 +8,7 @@ class User extends CI_Controller{
         $this->load->model('User_model');
         $this->load->model('Menu_model');
         $this->load->model('Book_model');
+        $this->load->model('Search_model');
     }
 
       public function profile(){
@@ -24,7 +25,7 @@ class User extends CI_Controller{
         $data['title'] = 'Edit Profile';
         $data['user'] = $this->User_model->logged_user();
 
-        $this->form_validation->set_rules('name', 'Full Name', 'required|trim');
+        $this->form_validation->set_rules('name', 'Username', 'required|trim|alpha');
         $this->form_validation->set_rules('company', 'Instansi', 'required|trim');
         $this->form_validation->set_rules('address', 'Alamat Instansi', 'required|trim');
         $this->form_validation->set_rules('contact', 'Kontak', 'required|trim');
@@ -62,17 +63,21 @@ class User extends CI_Controller{
                     echo $this->upload->display_errors();
                 }
             }
+            $data1 = [
+                    'name' => $name,
+                    'email' => $email
+                ];
 
             $q = $this->db->get_where('user_detail', ['email' => $email]);
             if ($q->row_array() > 0){
-                $this->db->set('name', $name);
                 $this->db->where('email', $email);
-                $this->db->update('user');
+                $this->db->update('user', $data1);
                 $this->db->set('company', $company);
                 $this->db->set('address', $address);
                 $this->db->set('contact', $contact);
                 $this->db->where('email', $email);
                 $this->db->update('user_detail');
+                
             } else {
                 $data = [
                     'email' => $email,
@@ -143,12 +148,20 @@ class User extends CI_Controller{
         $this->db->where($array);
         $query = $this->db->get();
         $result = $query->row()->penalty;
+        $query2 = $this->db->query("SELECT count(w.confirm_id) as rest FROM borrow as w INNER JOIN user as u ON w.email = u.email WHERE w.email = '$email' AND u.organization_id = 1 AND w.confirm_id = 4 OR w.confirm_id = 0");
+        $result2 = $query2->row()->rest;
         if ($result > 0){
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('auth/penalty', $data);
             $this->load->view('templates/footer'); 
+        } elseif ($result2 >= 3) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('auth/restriction', $data);
+            $this->load->view('templates/footer');  
         } else {
             $this->_book();
         }
@@ -224,7 +237,7 @@ class User extends CI_Controller{
                  'email' => $this->input->post('email'),
                  'book_id' => $this->input->post('book_id'),
                  'taken' => time(),
-                 'due'=> time() + (3 * 24 * 60 * 60),
+                 'due'=> time() + (7 * 24 * 60 * 60),
                  'return' => 0,
                  'penalty' => 0
            ];
@@ -240,7 +253,6 @@ class User extends CI_Controller{
     public function history(){
         $data['title'] = 'Peminjaman';
         $data['user'] = $this->User_model->logged_user();
-        $id = $this->uri->segment(3);
         $data['record'] = $this->Book_model->get_borrowed();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -255,5 +267,34 @@ class User extends CI_Controller{
         $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return = $time, borrow.confirm_id = 4 WHERE borrow.id = $id");
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menunggu Konfirmasi Pengembalian Buku</div>');
         redirect('user/history');
+    }
+
+    public function searchbook(){
+        $data['title'] = 'Data Buku';
+        $data['user'] = $this->User_model->logged_user();
+        $data['search'] = $this->input->post('search');
+        $data['found'] = $this->input->post('found');
+        $data['books'] = $this->Search_model->search($data['search'], $data['found'])->result_array();
+        $data['total'] = count($data['books']);
+         $this->load->view('templates/header', $data);
+         $this->load->view('templates/sidebar', $data);
+         $this->load->view('templates/topbar', $data);
+         $this->load->view('user/books', $data);
+         $this->load->view('user/addBook', $data);
+         $this->load->view('templates/footer');        
+    }
+
+    public function searchhistory(){
+        $data['title'] = 'Peminjaman';
+        $data['user'] = $this->User_model->logged_user();
+        $data['search'] = $this->input->post('search');
+        $data['found'] = $this->input->post('found');
+        $data['record'] = $this->Search_model->searchhistory($data['search'], $data['found'])->result_array();
+        $data['total'] = count($data['record']); 
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/history', $data);
+        $this->load->view('templates/footer'); 
     }
 }

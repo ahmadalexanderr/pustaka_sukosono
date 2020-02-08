@@ -21,6 +21,28 @@
                 <?= validation_errors(); ?>
             </div>
             <?php endif; ?>
+            
+            <?= form_open("user/searchbook"); ?>
+                <select class="form-control form-control-user" name="search">
+                    <option value="">Cari Berdasarkan</option>
+                    <option value="title">Judul Buku</option>
+                    <option value="author">Penulis</option>
+                    <option value="year">Tahun Terbit</option>
+                    <option value="category">Kategori</option>
+                </select>
+                <input type="text" name="found" class="form-control form-control-user">
+                <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
+            <?= form_close(); ?>
+
+            <?php
+                if(isset($total)){
+                    if($search == ""){
+                        echo "Jumlah pencarian : " . $found . " : " . $total;
+                    } else {
+                        echo "Jumlah pencarian : " . $search . " = " . $found . " : " . $total;
+                    }
+                }
+            ?>
 
             <?= $this->session->flashdata('message'); ?>
             <table class="table table-hover">

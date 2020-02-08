@@ -29,11 +29,17 @@
                                     </button>
                                 </form>
                                 <hr>
-                                <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">Forgot Password?</a>
+                                 <div class="text-center">
+                                    <a class="small" href="<?= base_url('auth/name_login'); ?>">Login dengan Username</a>
                                 </div>
                                 <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/registration'); ?>">Create an Account!</a>
+                                    <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">Lupa Password (Password Only)</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="<?= base_url('auth/registration'); ?>">Buat Akun dengan Email</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="<?= base_url('auth/name_registration'); ?>">Buat Akun tanpa Email</a>
                                 </div>
                             </div>
                         </div>
