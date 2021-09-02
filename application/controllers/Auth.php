@@ -64,7 +64,7 @@ class Auth extends CI_Controller {
             redirect('user/book');
         }
         $email = $this->input->post('email');
-        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha|is_unique[user.name]',
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|is_unique[user.name]',
         [
             'is_unique' => 'Username sudah terdaftar!',
             'alpha' => 'Isi dengan huruf dan angka tanpa spasi!'
@@ -119,7 +119,7 @@ class Auth extends CI_Controller {
         if ($this->session->userdata('name')) {
             redirect('user/book');
         }
-        $this->form_validation->set_rules('name', 'Name', 'required|trim|alpha|is_unique[user.name]',
+        $this->form_validation->set_rules('name', 'Name', 'required|trim|is_unique[user.name]',
         [
             'is_unique' => 'Username sudah terdaftar!',
             'alpha' => 'Isi dengan huruf dan angka tanpa spasi!'
@@ -159,8 +159,8 @@ class Auth extends CI_Controller {
         $config = [
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'pemdessukosono@gmail.com',
-            'smtp_pass' => 'pemudasukosono',
+            'smtp_user' => 'ahmadalexanderr@gmail.com',
+            'smtp_pass' => 'sadiesinkcigaratte',
             'smtp_port' => 465,
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
@@ -169,7 +169,7 @@ class Auth extends CI_Controller {
 
         $this->email->initialize($config);
 
-        $this->email->from('pemdessukosono@gmail.com', 'sukosono');
+        $this->email->from('ahmadalexanderr@gmail.com', 'Ahmad Alexander');
         $this->email->to($this->input->post('email'));
 
         if ($type == 'verify') {

@@ -17,7 +17,7 @@
                                 <?= $this->session->flashdata('message'); ?>
                                 <form class="user" method="post" action="<?= base_url('auth'); ?>">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address..." value="<?= set_value('email'); ?>">
+                                        <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address" value="<?= set_value('email'); ?>">
                                         <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                                     </div>
                                     <div class="form-group">
@@ -29,18 +29,18 @@
                                     </button>
                                 </form>
                                 <hr>
-                                 <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/name_login'); ?>">Login dengan Username</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">Lupa Password (Password Only)</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/registration'); ?>">Buat Akun dengan Email</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="<?= base_url('auth/name_registration'); ?>">Buat Akun tanpa Email</a>
-                                </div>
+                                      <div class="text-center">
+                           <a class="small" href="<?= base_url('auth/name_login'); ?>">Login dengan username</a> <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">| Lupa Password?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="<?= base_url('auth/registration'); ?>">Daftar dengan email dan username</a>  <a class="small" href="<?= base_url('auth/name_registration'); ?>">| Daftar dengan username</a>
+                        </div>
+                        <div class="text-center">
+                           
+                        </div>
+                           <div class="text-center">
+                                    <a class="small" href="<?= base_url('visitor'); ?>">Kembali ke Halaman Utama</a>
+                            </div>
                             </div>
                         </div>
                     </div>

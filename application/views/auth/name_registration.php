@@ -35,12 +35,18 @@
                             </button>
                         </form>
                         <hr>
-                        <div class="text-center">
-                            <a class="small" href="<?= base_url('auth/forgotpassword'); ?>">Lupa Password</a>
+                         <div class="text-center">
+                           <a class="small" href="<?= base_url('auth/registration'); ?>">Buat akun dengan email dan username</a>
                         </div>
                         <div class="text-center">
-                            <a class="small" href="<?= base_url('auth'); ?>">Sudah punya akun? Login!</a>
+                            <a class="small" href="<?= base_url('auth'); ?>">Login dengan email</a>  <a class="small" href="<?= base_url('auth/name_login'); ?>">| Login dengan username</a>
                         </div>
+                        <div class="text-center">
+                           
+                        </div>
+                           <div class="text-center">
+                                    <a class="small" href="<?= base_url('visitor'); ?>">Kembali ke Halaman Utama</a>
+                            </div>
                     </div>
                 </div>
             </div>
