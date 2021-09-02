@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 22, 2020 at 12:58 PM
+-- Generation Time: Feb 09, 2020 at 10:33 AM
 -- Server version: 5.7.26
 -- PHP Version: 7.3.7
 
@@ -11,8 +11,395 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `wpu_login`
+-- Database: `pustaka`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book`
+--
+
+CREATE TABLE `book` (
+  `id` int(11) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `author` varchar(128) NOT NULL,
+  `year` year(4) NOT NULL,
+  `category_id` int(2) NOT NULL,
+  `status_id` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `book`
+--
+
+INSERT INTO `book` (`id`, `title`, `author`, `year`, `category_id`, `status_id`) VALUES
+(1, 'Gue Muda Gue Ngeblog', 'Hikmawan Ali', 2011, 14, 0),
+(2, 'Otak-Atik Otak', 'Dr.Arman Yurisadi', 2009, 15, 0),
+(3, 'Sains Seru Seri 2. Hewan', 'Aep Saifulloh', 2011, 15, 0),
+(4, 'Bobo (Rahasia Fauna Hutan Bakau)', 'Majalah Bobo', 2016, 15, 0),
+(5, 'Bobo ( Dongeng Bintang)', 'Majalah Bobo', 2014, 15, 0),
+(6, 'Ensiklopedi anak (Dinosaurus dan Binatang PraSejarah)', 'Ensiklo', 1996, 15, 0),
+(7, 'SPM Bahasa Inggris', 'Linawati ', 2012, 15, 0),
+(8, 'Bahan Kimia di Sekitar Kita', 'Sallih Hewitt', 2010, 15, 0),
+(9, 'Sains Seru Seri 1. Manusia', 'Aep Saifulloh', 2011, 15, 0),
+(10, 'Pengantar Epidemiologi Penyakit Menular', 'Prof.dr Nurnasri', 2009, 15, 0),
+(11, 'Pintar MTK', 'William Kenedi', 2000, 15, 0),
+(12, 'Cerdas Sains Kelas 1-3SD', 'Yualind', 2008, 15, 0),
+(13, 'Bisa Baca dan Tulis', 'Destyan', 2013, 15, 0),
+(14, 'Asik dan Seru Belajar Membaca', 'Dewi Fatma', 2015, 15, 0),
+(15, 'Bobo (The Book of Life)', 'Majalah Bobo', 2000, 15, 0),
+(16, 'Bobo (Misteri Mesir Kuno)', 'Majalah Bobo', 2015, 15, 0),
+(17, 'Bobo ( RS Kereta Api )', 'Majalah Bobo', 2014, 15, 0),
+(18, 'Bobo ( Youtube Lautan Video )', 'Majalah Bobo', 2013, 15, 0),
+(19, 'Bobo ( Goes to Japan )', 'Majalah Bobo', 2015, 15, 0),
+(20, 'Bobo ( Tujuh Bintang Paling Terang )', 'Majalah Bobo', 2017, 15, 0),
+(21, 'Bobo (Scrapbook)', 'Majalah Bobo', 2014, 15, 0),
+(22, 'Bobo ( RS Hewan)', 'Majalah Bobo', 2014, 15, 0),
+(23, 'Petualangan Dudu dan Dodo', 'Agung', 2000, 15, 0),
+(24, 'Accounting', 'Kardiman', 2006, 15, 0),
+(25, 'Cinta Tanah Air Mengenal Budaya Bangsa', 'MB. Rahimsyah', 2000, 15, 0),
+(26, 'Soal-Soal Intelegensi Test Edisi IV', 'Dr. Yuli Iskandar', 1988, 15, 0),
+(27, 'SBMPTN 2016', 'Tentor', 2016, 15, 0),
+(28, 'Mengenal Tubuh Kita', 'Yana Sutisna', 2009, 15, 0),
+(29, 'Panduan Lengkap Orang Tua dan Guru untuk Anak', 'Emirfan', 2012, 15, 0),
+(30, 'Metode Bimbel Privat Kuasai Rumus MTK', 'Dipta Anggraeni', 2012, 15, 0),
+(31, 'Burung-Burung Dilindungi (Julid 1)', 'Pranowo', 1977, 15, 0),
+(32, '99 Percobaan Sehari-hari Seri 2', 'Prof.dr Wahyudin', 2009, 15, 0),
+(33, '99 Percobaan Sehari-hari Seri 3', 'Prof.dr Wahyudin', 2009, 15, 0),
+(34, '99 Percobaan Sehari-hari Seri 4', 'Prof.dr Wahyudin', 2009, 15, 0),
+(35, '99 Percobaan Sehari-hari Seri 5', 'Prof.dr Wahyudin', 2009, 15, 0),
+(36, '99 Percobaan Sehari-hari Seri 6', 'Prof.dr Wahyudin', 2009, 15, 0),
+(37, 'Ensiklomini MTK Bilangan', 'Yuti Ariani', 2008, 15, 0),
+(38, 'Ensiklopedia Hewan', 'Joko Santoso', 2006, 15, 0),
+(39, 'Ensiklopedia Alat Musik Tradisional', 'Titik Oktia', 2011, 15, 0),
+(40, 'Ensiklomini Nusantara Budaya Unik Bangsaku', 'Murni Irian', 2008, 15, 0),
+(41, 'Ensiklomini Nusantara Prestasi Bangsaku', 'Adi Angga', 2008, 15, 0),
+(42, 'Ensiklomini MTK Pecahan', 'Irfan Habiebie', 2008, 15, 0),
+(43, 'Belajar Sains Melalui Fenomena di Sekitar Kita', 'Dr.Ana Permanasari', 2007, 15, 0),
+(44, 'Ensiklomini Nusantara Kekayaan Alam Negeriku', 'Munri Irian', 2008, 15, 0),
+(45, 'Ensiklomini MTK Bangun Datar dan Ruang', 'Reza Ageung', 2008, 15, 0),
+(46, 'Pendidikan Kewarganegaraan untuk Perguruan Tinggi', 'Prof.dr Kailan', 2012, 15, 0),
+(47, 'Metode BImbel Privat Kuasai Kimia SMA', 'Agustina Dwi R', 2012, 15, 0),
+(48, 'Fisika SMA Kelas IX', 'Marthen K', 2006, 15, 0),
+(49, 'Matematika Kelas IX', 'Sukino', 2013, 15, 0),
+(50, 'Matematika Kelas X', 'Sukino', 2013, 15, 0),
+(51, 'Biologi Kelas X', 'Sri Ayu', 2013, 15, 0),
+(52, 'Kumpulan Rumus Fisika SMA', 'Bayu Saptahari', 2012, 15, 0),
+(53, 'Biologi Kelas XI', 'Henny Riandari', 2006, 15, 0),
+(54, 'Kimia Kelas XI', 'Michael Purba', 2006, 15, 0),
+(55, 'Biologi Kelas XI', 'D.a Pratiwi', 2006, 15, 0),
+(56, 'Sejarah Berbasis Pendidikan Karakter Bangsa', 'Tim Sosioprawara C', 2012, 15, 0),
+(57, 'RPAL', 'Dr.Ersoetarno', 2001, 15, 0),
+(58, 'Sosiologi 1', 'Tim Sosiologi', 2006, 15, 0),
+(59, 'Chemistri 1B', 'Johari', 2010, 15, 0),
+(60, 'Mengenal Sopan Santun Sejak Dini', 'Pagohardian', 2012, 15, 0),
+(61, 'Chemistri 1A', 'Johari', 2010, 15, 0),
+(62, 'Jelajah Kekayaan Alam Adat dan Budaya Nusantara', 'Ardi Sudibyo', 2000, 15, 0),
+(63, 'Pendidikan Seni Tari Drama', 'Purwatiningsih', 2004, 15, 0),
+(64, 'Bahasa Indonesia untuk Perguruan Tinggi', 'Surono', 2009, 15, 0),
+(65, 'Gue Bisa Jadi yang Gue Mau', 'Adenata', 2007, 4, 0),
+(66, 'Ulah si Kecil', 'Nagiga', 2008, 4, 0),
+(67, 'Tanaman Bunga di Sekitar Kita', 'Yulia', 2006, 4, 0),
+(68, 'Petunjuk Pertama Kungfu', 'Felix Denis', 2000, 4, 0),
+(69, 'Belajar Aktif Seni Melipat Kertas', 'Miyoko Alam', 1999, 4, 0),
+(70, 'Membuat Patng Gips dan Lilin', 'Olga Jusuf', 2010, 4, 0),
+(71, 'Pernik Interior Kreasi Sendiri', 'Tabloid Rumah', 2014, 4, 0),
+(72, 'Ngopi Yuk', 'Gagas Ulung', 2011, 4, 0),
+(73, 'Asik Berkreasi dengan Krikil', 'Sri Anggani', 2010, 4, 0),
+(74, 'Mood On', 'Naqib Nazah', 2014, 4, 0),
+(75, 'Seni Meramal Wajah', 'WangHinHau', 2002, 4, 0),
+(76, 'Kreasi Kartu Ucapan Cantik', 'Ifa Hardiana', 2009, 4, 0),
+(77, 'Aneka Kreasi Paduan Rempah dan Biji-Bijian', 'Dr. Yuti Regawati', 2011, 4, 0),
+(78, 'Belajar Membuat Batu-bata', 'Eny Yusriani', 2000, 4, 0),
+(79, 'Keterampilan Menghias Kain', 'Wasia Roesbani', 2009, 4, 0),
+(80, 'Sulaman', 'Sujono', 2007, 4, 0),
+(81, 'Aneka Pigura', 'Bagas Sinuhi', 2009, 4, 0),
+(82, 'Tas dan Dompet Pesta', 'Endang Rahminingsih', 2011, 4, 0),
+(83, 'Kreasi Aneka Kertas', 'Bagas Sinuhi', 2009, 4, 0),
+(84, 'Berkreasi Sendiri', 'Dir Parditilar', 2000, 4, 0),
+(85, 'Merancang Rumah Mungil', 'Khoirul Amin', 2006, 4, 0),
+(86, 'Korsase Gaya Hijab', 'Triana Hapsari', 2013, 4, 0),
+(87, 'Jendela', 'Majalah Idea', 2006, 4, 0),
+(88, 'Panduan Pengembangan Rumah', 'Majalah Idea', 2006, 4, 0),
+(89, 'Ragam Ruang Dalam', 'Majalah Idea', 2008, 4, 0),
+(90, 'Table Setting', 'Gramedia', 2007, 4, 0),
+(91, 'Contoh Pengembangan Rumah', 'Gramedia', 2000, 4, 0),
+(92, 'Aksesoris Cantik dari Manik', 'Yuki', 2011, 4, 0),
+(93, 'Panduan Latihan Sepakbola Handal', 'Sunda Kelapa Pustaka', 2002, 4, 0),
+(94, 'Pemipaan Rumah', 'Rita Laksmitasari', 2000, 4, 0),
+(95, '2014 Fifa World Cup', 'fifa', 2014, 4, 0),
+(96, '1001 Fakta-Fakta Unik Sepak Bola', 'Sashi', 2012, 4, 0),
+(97, 'Don&#39;t Jugde a Girl By Her Cover', 'Ally Carter', 2009, 13, 0),
+(98, 'Biru yang Kuning', 'Ravi Oktevian', 2019, 13, 0),
+(99, 'A Girl Made of Dust', 'Natalie A.', 2011, 13, 0),
+(100, 'Dilan 1991', 'Pidi Baiq', 2015, 13, 0),
+(101, 'Blainded', 'Alia Zalea', 2010, 13, 0),
+(102, 'I Wuf You', 'Wulanfadi', 2017, 13, 0),
+(103, 'Teka-Teki Rasa', 'Ahimsyah A.', 2016, 13, 0),
+(104, 'Sunshine Becomes You', 'Illana Tan', 2012, 13, 0),
+(105, 'Of  Mice and Mine', 'John S.', 2006, 13, 0),
+(106, '38 Tahun Mencari Ibu', 'Reza Purwanti', 2012, 13, 0),
+(107, 'The Worry Website', 'Jacqueline W.', 2007, 13, 0),
+(108, 'Papua Berkisah', 'Swastika Nohara', 2014, 13, 0),
+(109, 'Andai Kau Tahu', 'Dahlian', 2012, 13, 0),
+(110, 'Garis Waktu', 'Fiersa Besari', 2016, 13, 0),
+(111, 'Kapan Jadian', 'Almaidah Swan', 2013, 13, 0),
+(112, 'If I Stay', 'Gayle Forman', 2015, 13, 0),
+(113, 'Puisi Indonesia Sebelum Kemerdekaan', 'Supardi Joko Darmono', 2009, 13, 0),
+(114, 'Kumpulan Peribahasa Pantun dan Puisi', 'MB Rahimsyah', 2012, 13, 0),
+(115, 'Black Powder War', 'Naomi Novik', 2006, 9, 0),
+(116, 'Frankenstain', 'Marysaelley', 1994, 9, 0),
+(117, 'Silverstone', 'Ardina Hasan B.', 2011, 9, 0),
+(118, 'The Alien Bride', 'Gramedia Pustaka Utama', 2010, 9, 0),
+(119, 'Hal-Hal Gaib', 'Erlangga', 2005, 9, 0),
+(120, 'Manusia Srigala', 'Abdullah Harahab', 2011, 9, 0),
+(121, 'Misteri Tatan Khamen', 'Takasioichi', 2009, 9, 0),
+(122, 'Tintin (Profesor Lakmus)', 'Michel Farl', 2010, 9, 0),
+(123, 'Tintin (Jenderal Alkazar)', 'Michel Farl', 2010, 9, 0),
+(124, 'Tintin ( Milo )', 'Michel Farl', 2010, 9, 0),
+(125, 'Tafsir Juz Amma 2', 'Muhammad Muslih', 2000, 17, 0),
+(126, 'Ayo Belajar Sholat', 'Rahmi Fitriani', 2010, 17, 0),
+(127, 'Ayo Belajar Puasa', 'Rahmi Fitriani', 2010, 17, 0),
+(128, 'Ayo Mengenal Zakat', 'Rahmi Fitriani', 2010, 17, 0),
+(129, 'Meneladani 99 Sifat Allah Jilid 3', 'Alfirdaus', 2000, 17, 0),
+(130, 'Meneladani 99 Sifat Allah Jilid 2', 'Alfirdaus', 2000, 17, 0),
+(131, 'Tafsir Juz Amma 3', 'Muhammad Muslih', 2000, 17, 0),
+(132, 'Tafsir Juz Amma 4', 'Muhammad Muslih', 2000, 17, 0),
+(133, 'Surat Terpilih dan Makna Ringkas', 'Dewi Mulyani', 2009, 17, 0),
+(134, '20 Cerita Populer Islami', 'Ismail Usmayadi', 2009, 17, 0),
+(135, 'Majmu Syarif', 'Abu Taufiqurrahman', 2000, 17, 0),
+(136, 'Dosa Bagaikan Madu yang Beracun', 'Isa Selamat', 2000, 17, 0),
+(137, 'Anak Punya Masalah Al-Quran Menjawab', 'Wini Gunarti', 2009, 17, 0),
+(138, 'Membimbing Spiritualitas Anak', 'Salsa Az-Zahra', 2014, 17, 0),
+(139, 'Dahsyatnya Terapi Sedekah', 'Hasan Hammam', 2007, 17, 0),
+(140, 'Tata Cara Sholat Lengkap', 'Ustad Labib MZ', 2002, 17, 0),
+(141, 'Salman Al-Farisi Mencari Kebenaran', 'S. Hidayat', 2012, 17, 0),
+(142, 'Kisah-Kisah Jilbab ', 'Trisula Adisakti', 2010, 17, 0),
+(143, 'Khalid Bin Walid', 'M.Anshori', 2012, 17, 0),
+(144, 'Nabi Yusuf A.S', 'Shodiq', 2012, 17, 0),
+(145, 'Usamah Mencari Syahid', 'Shodiq', 2012, 17, 0),
+(146, 'Usluhudin', 'Trisula Adisakti', 2010, 17, 0),
+(147, 'Sekitar Wali Songo', 'Sholihin Salam', 1960, 17, 0),
+(148, 'Kisah-Kisah Ajaib', 'Trisula Adisakti', 2010, 17, 0),
+(149, 'Dosa-Dosa Besar', 'Trisula Adisakti', 2010, 17, 0),
+(150, 'Mengobati Penyakit Lisan', 'Trisula Adisakti', 2010, 17, 0),
+(151, 'Perempuan dan Jilbab', 'Farid L.', 2009, 17, 0),
+(152, 'Wanita-Wanita Pilihan', 'Abbas Azizi', 2010, 17, 0),
+(153, 'Nasihat Syeikh Hakim', 'Choirul Anwar', 2007, 17, 0),
+(154, 'Tafsir Juz Amma 5', 'Muhammad Muslih', 2000, 17, 0),
+(155, 'Malaikat Ridwan dan Aku', 'Bunda Nanid', 2000, 17, 0),
+(156, 'Jangan Pernah Menyerah', 'Aldilla D.', 2016, 17, 0),
+(157, 'Variasi Kue Kering Praktis', 'Siti Fatimah', 2006, 6, 0),
+(158, 'Pembuatan Tahu dan Tempe Kedelai', 'Ir. Heronymus Budi S.', 1993, 6, 0),
+(159, 'Membuat Gift Cards Kirigami', 'Hamid Mitarwan', 2011, 6, 0),
+(160, 'Minuman dan Dessert untuk Anak Balita', 'Hindah Muaris', 2006, 6, 0),
+(161, 'Budidaya dan Manfaat Bawang, Mentimun, dan Pare', 'Kardono', 2010, 6, 0),
+(162, 'Budidaya dan Manfaat Mengkudu, Blustru, Ciplukan', 'Kardono', 2010, 6, 0),
+(163, 'Teknik Penyimpanan dan Pengemasan', 'Ryan Yuditian', 2007, 6, 0),
+(164, 'Trubus 518', 'TRUBUS', 2013, 6, 0),
+(165, 'Trubus 513', 'TRUBUS', 2012, 6, 0),
+(166, 'Trubus 565', 'TRUBUS', 2016, 6, 0),
+(167, 'Trubus 463', 'TRUBUS', 2008, 6, 0),
+(168, 'Trubus 481', 'TRUBUS', 2009, 6, 0),
+(169, 'Trubus 508', 'TRUBUS', 2012, 6, 0),
+(170, 'Trubus 560', 'TRUBUS', 2016, 6, 0),
+(171, 'Oxford Dictionary', 'OXFORD', 2008, 11, 0),
+(172, 'Kamus Hukum', 'Yan Pramadya Puspa', 1977, 11, 0),
+(173, 'Practical English Grammar & Daily Conversations', 'Dhanny R. Cysso', 2008, 11, 0),
+(174, 'Hafal Ala Native Speaker', 'Ahmad Fanani', 2014, 11, 0),
+(175, 'Smart Choice Oxford', 'LIA', 2000, 7, 0),
+(176, 'Naruto Vol.21', 'Masashi Kishimoto', 2000, 7, 0),
+(177, 'Naruto Vol.22', 'Masashi Kishimoto', 2000, 7, 0),
+(178, 'Naruto Vol.23', 'Masashi Kishimoto', 2000, 7, 0),
+(179, 'Naruto Vol.24', 'Masashi Kishimoto', 2000, 7, 0),
+(180, 'Naruto Vol.25', 'Masashi Kishimoto', 2000, 7, 0),
+(181, 'Naruto Vol.26', 'Masashi Kishimoto', 2000, 7, 0),
+(182, 'Naruto Vol.27', 'Masashi Kishimoto', 2000, 7, 0),
+(183, 'Junkyard Magnetic', 'Wataru Murayana', 2000, 7, 0),
+(184, 'Pudding In Love', 'Shinozuka Himoru', 2000, 7, 0),
+(185, 'Tail Of The Moon', 'Rinko Ueda', 2000, 7, 0),
+(186, 'The Princess Cactus', 'Xu Ci', 2000, 7, 0),
+(187, 'Rocket Man', 'Motohiro Kato', 2000, 7, 0),
+(188, 'Dear Mine', 'Shigeru Takao', 2000, 7, 0),
+(189, 'Noah Almighty Vol.1', 'Yochiro Ono', 2000, 7, 0),
+(190, 'School Rumbel', 'Jin Kobayashi', 2000, 7, 0),
+(191, 'Adrenalin', 'Lee Jung-Hwa', 2000, 7, 0),
+(192, 'Pockemon', 'Tsukirino Yumi', 2000, 7, 0),
+(193, 'Story Of Heroes', 'Choi Mir', 2000, 7, 0),
+(194, 'Bleach Vol.42', 'Tite Kubo', 2000, 7, 0),
+(195, 'Fairy&#39;s Landing Vol.4', 'Yoo Hyun', 2000, 7, 0),
+(196, 'Fairy&#39;s Landing Vol.5', 'Yoo Hyun', 2000, 7, 0),
+(197, 'Noah Almighty Vol. 3', 'Yochiro Ono', 2000, 7, 0),
+(198, 'Noah Almighty Vol. 2', 'Yochiro Ono', 2000, 7, 0),
+(199, 'Prahara', 'Susanto, Dkk', 2000, 7, 0),
+(200, 'Pertempuran Final  Dunia Ninja Ke-4', 'Kimimaro Sakura', 2000, 7, 0),
+(201, 'Bleach Vol.53', 'Tite Kubo', 2000, 7, 0),
+(202, 'Fly, Daddy, Fly', 'Kaneshiro Kazuki', 2000, 7, 0),
+(203, 'Eyeshield Vol.21', 'Richiro Inagaki', 2000, 7, 0),
+(204, '3x3 Eyes Vol.1', 'Yuzo Takada', 2000, 7, 0),
+(205, '3x3 Eyes Vol.2', 'Yuzo Takada', 2000, 7, 0),
+(206, 'Julius Caesar', 'Ie Fen Lan', 2000, 7, 0),
+(207, 'City Of Fiction', 'Andre Syahreza', 2000, 7, 0),
+(208, 'Crayon Shinchan Vol.1', 'Yoshito Umi', 2000, 7, 0),
+(209, 'Rapat Koordinasi Muspida Bersama Aparat Pemerintahan Desa Se-Kabupaten-Jepara', 'Bupati Jepara', 2010, 10, 0),
+(210, 'Renvoi', 'Direktorat Jenderal Andministrasi Hukum', 2008, 10, 0),
+(211, 'Etika Komunikasi Penjualan', 'I Dewa Made Hari Shandi', 2005, 10, 0),
+(212, 'Panduan KPPS', 'Komisi Pemilihan Umum', 2014, 10, 0),
+(213, 'Ulasan Terhadap Ketentuan UUD 1945', 'S. Toto Pandoyo', 1981, 10, 0),
+(214, 'Membuka Indera Keenam', 'Masruri', 2006, 10, 0),
+(215, 'Aliran Kebatinan', 'H. Ridin Sofwan', 2002, 10, 0),
+(216, 'Permainan Sulap Populer', 'Ediramani, Dkk', 2000, 10, 0),
+(217, 'Arbitase (Hukum Dagang)', 'Sri Redjeki Hartono', 1978, 10, 0),
+(218, 'Pengantar Singkat Hukum Pajak', 'H. Rochmat Soemitro', 1986, 10, 0),
+(219, 'Indonesia Kini dan Esok', 'Imam Walujo', 1981, 10, 0),
+(220, 'Polisi Penegak Hukum ', 'Soehardi', 2010, 10, 0),
+(221, 'Kitab UU Hukum Pidana (KUHP)', 'M. Jusuf Ismail', 2000, 10, 0),
+(222, 'Asas dan Dasar Perpajakan', 'H. Rochmat Soemitro', 1998, 10, 0),
+(223, 'Tinjauan Elementer Perbuatan Melawan Hukum ', 'Rachmat Setiawan', 1982, 10, 0),
+(224, 'Perjanjian Kerja', 'FX. Djumialdji', 1987, 10, 0),
+(225, 'Asas dan Susunan Hukum Adat', 'Soebakti Poesponoto', 1976, 10, 0),
+(226, 'Redistribusi Tanah Pertanian ', 'Direktorat Landreform', 1992, 10, 0),
+(227, 'Berutang dengan Cerdas', 'Jhonny Djohari', 2002, 10, 0),
+(228, 'Inspirasi Bisnis Ala Londen', 'I Nyoman Londen', 2007, 10, 0),
+(229, 'Pengantar Ilmu Hukum Pajak', 'R. Santoso Brotodihardjo', 1991, 10, 0),
+(230, 'Asas Hukum Adat', 'Iman Sudiyat', 1978, 10, 0),
+(231, 'Hukum Tata Lingkungan', 'Koesnadi Hardjasoemantri', 1972, 10, 0),
+(232, '18 Rahasia Sukses Orang Terkaya', 'AW Publishing', 2014, 10, 0),
+(233, 'Kumpulan 27 Cerita Rakyat Nusantara', 'MB. Rahimsyah', 2010, 3, 0),
+(234, 'Kumpulan Cerita Rakyat Nusantara', 'MB. Rahimsyah', 2004, 3, 0),
+(235, 'Dongeng Rakyat Se Nusantara', 'Pustaka indonesia', 2000, 3, 0),
+(236, 'Statistika Untuk Ekonomi dan Niaga', 'DR.Sudjana ', 1984, 14, 0),
+(237, 'Rekayasa Photoshop Terbaik', 'Laksamana Media', 2008, 14, 0),
+(238, 'Rahasia Kedahsyatan Google ', 'Heru Granito', 2008, 14, 0),
+(239, 'Belajar Fotografi Dasar dengan Kamera Saku II ponsel', 'Rudi R.Hakim', 2010, 14, 0),
+(240, 'Buku Pintar Komputer ', 'Hasyim ', 2008, 14, 0),
+(241, 'Keajaiban Photo Shop', 'Alex Media', 2011, 14, 0),
+(242, 'Untold Story Susi Pudjiastuti', 'A.Bobby', 2015, 2, 0),
+(243, 'Mohammad Hatta', 'B.A Saleh', 2007, 2, 0),
+(244, 'Sultan Syarif kasim II', 'Drs.Mardanas Safwan ', 2010, 2, 0),
+(245, '100 Wanita Yang Membentuk Sejarah dunia', 'Eddy Soetrisno', 2003, 2, 0),
+(246, 'Pengantar Teori Mikro Ekonomi', 'Sadono Sukirno', 2000, 16, 0),
+(247, 'Diktat Kuliah Teknik Separasi 1', 'Herry Santoso', 2011, 16, 0),
+(248, 'Operasi Teknik Kimia Ekstraksi', 'Herry Santoso', 2004, 16, 0),
+(249, 'Diktat Kuliah Operasi Teknik Kimia 3', 'Herry Santoso', 2002, 16, 0),
+(250, 'Bumi Murka', 'Ellen J. Prager', 2010, 8, 0),
+(251, 'Perjuangan Kapiten Patimura', 'Pusat Sejarah TNI', 2005, 8, 0),
+(252, 'Jangan Pernah Jadi Malaikat', 'Christianto Wibisono', 2010, 8, 0),
+(253, 'Amru bin Ash Sang Penakluk', 'Ginda R.H', 2012, 8, 0),
+(254, 'Sejarah Fatimah Az-Zahra', 'Prof. Dasteghib', 2010, 8, 0),
+(255, 'Sejarah Indonesia 2', 'Eko Praptanto', 2010, 8, 0),
+(256, 'Sejarah Indonesia 9', 'Eko Praptanto', 2010, 8, 0),
+(257, 'Sejarah Indonesia 3', 'Eko Praptanto', 2010, 8, 0),
+(258, 'Sejarah Indonesia 1', 'Eko Praptanto', 2010, 8, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book_category`
+--
+
+CREATE TABLE `book_category` (
+  `id` int(11) NOT NULL,
+  `category` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `book_category`
+--
+
+INSERT INTO `book_category` (`id`, `category`) VALUES
+(1, 'Seni dan Fotografi'),
+(2, 'Biografi'),
+(3, 'Cerita Rakyat'),
+(4, 'Keterampilan dan Hobi'),
+(5, 'Kriminal'),
+(6, 'Makanan'),
+(7, 'Manga'),
+(8, 'Sejarah dan Arkeologis'),
+(9, 'Fiksi Sains, Fantasi, dan Horror'),
+(10, 'Bisnis, Keuangan, dan Hukum'),
+(11, 'Kamus dan Bahasa'),
+(12, 'Kesehatan'),
+(13, 'Puisi dan Drama'),
+(14, 'Komputer dan Teknologi Informasi'),
+(15, 'Edukasi'),
+(16, 'Teknik / Engineering'),
+(17, 'Agama Islam'),
+(18, 'Spiritual'),
+(19, 'Comic'),
+(21, 'Pengembangan Perangkat Lunak'),
+(22, 'Lain-lain');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `book_status`
+--
+
+CREATE TABLE `book_status` (
+  `id` int(11) NOT NULL,
+  `status` varchar(128) NOT NULL,
+  `status_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `book_status`
+--
+
+INSERT INTO `book_status` (`id`, `status`, `status_id`) VALUES
+(3, 'Dipinjam', 1),
+(4, 'Tersedia', 0),
+(6, 'Proses Pengembalian', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `borrow`
+--
+
+CREATE TABLE `borrow` (
+  `id` int(11) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `taken` int(11) NOT NULL,
+  `due` int(11) NOT NULL,
+  `return` int(11) NOT NULL,
+  `confirm_id` int(11) NOT NULL,
+  `penalty` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `borrow`
+--
+
+INSERT INTO `borrow` (`id`, `email`, `book_id`, `taken`, `due`, `return`, `confirm_id`, `penalty`) VALUES
+(16, 'esperanza62@stracke.com', 1, 1581134719, 1581739519, 1581134730, 1, 0),
+(17, 'esperanza62@stracke.com', 131, 1581134722, 1581739522, 1581134729, 1, 0),
+(18, 'esperanza62@stracke.com', 125, 1581134724, 1581739524, 1581134727, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `confirmation`
+--
+
+CREATE TABLE `confirmation` (
+  `id` int(11) NOT NULL,
+  `confirm` varchar(128) NOT NULL,
+  `confirm_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `confirmation`
+--
+
+INSERT INTO `confirmation` (`id`, `confirm`, `confirm_id`) VALUES
+(3, 'Sedang dipinjam', 0),
+(4, 'Pengembalian Terkonfirmasi', 1),
+(5, 'Denda Belum Lunas', 2),
+(6, 'Denda Lunas', 3),
+(7, 'Tunggu Konfirmasi', 4);
 
 -- --------------------------------------------------------
 
@@ -28,17 +415,16 @@ CREATE TABLE `user` (
   `password` varchar(256) NOT NULL,
   `role_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
-  `date_created` int(11) NOT NULL
+  `date_created` int(11) NOT NULL,
+  `organization_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`) VALUES
-(5, 'Sandhika Galih', 'sandhikagalih@unpas.ac.id', 'profile1.jpg', '$2y$10$nXnrqGQTjpvg58OtOB/N.evYQjVlz7KIW37oUSQSQ2EgNMD0Dgrzq', 1, 1, 1552120289),
-(6, 'Doddy Ferdiansyah', 'doddy@gmail.com', 'profile.jpg', '$2y$10$FhGzXwwTWLN/yonJpDLR0.nKoeWlKWBoRG9bsk0jOAgbJ007XzeFO', 2, 1, 1552285263),
-(11, 'Sandhika Galih', 'sandhikagalih@gmail.com', 'default.jpg', '$2y$10$0QYEK1pB2L.Rdo.ZQsJO5eeTSpdzT7PvHaEwsuEyGSs0J1Qf5BoSq', 2, 1, 1553151354);
+INSERT INTO `user` (`id`, `name`, `email`, `image`, `password`, `role_id`, `is_active`, `date_created`, `organization_id`) VALUES
+(5, 'sukosono', 'pemdessukosono@gmail.com', 'images21.jpg', '9271d6eecedd55fcfa6143a33029d496', 1, 1, 1581132132, 2);
 
 -- --------------------------------------------------------
 
@@ -65,6 +451,48 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_activation`
+--
+
+CREATE TABLE `user_activation` (
+  `id` int(11) NOT NULL,
+  `activation` varchar(128) NOT NULL,
+  `is_active` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_activation`
+--
+
+INSERT INTO `user_activation` (`id`, `activation`, `is_active`) VALUES
+(1, 'Tidak Aktif', 0),
+(3, 'Aktif', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_detail`
+--
+
+CREATE TABLE `user_detail` (
+  `id` int(11) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `company` varchar(128) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `contact` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_detail`
+--
+
+INSERT INTO `user_detail` (`id`, `email`, `company`, `address`, `contact`) VALUES
+(36, 'pemdessukosono@gmail.com', 'Balai Desa Sukosono', 'Jl. Ciputat, RT 17/RW 5, Sukosono, Kedung, Rw. V, Sukosono, Jepara, Kabupaten Jepara, Jawa Tengah 59463', 'pemdessukosono@gmail.com'),
+(37, 'esperanza62@stracke.com', 'individual', 'New York', '12344');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_menu`
 --
 
@@ -79,8 +507,27 @@ CREATE TABLE `user_menu` (
 
 INSERT INTO `user_menu` (`id`, `menu`) VALUES
 (1, 'Admin'),
-(2, 'User'),
-(3, 'Menu');
+(2, 'User');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_organization`
+--
+
+CREATE TABLE `user_organization` (
+  `id` int(11) NOT NULL,
+  `organization` varchar(128) NOT NULL,
+  `organization_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_organization`
+--
+
+INSERT INTO `user_organization` (`id`, `organization`, `organization_id`) VALUES
+(1, 'Individu', 1),
+(2, 'Instansi', 2);
 
 -- --------------------------------------------------------
 
@@ -121,13 +568,13 @@ CREATE TABLE `user_sub_menu` (
 --
 
 INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active`) VALUES
-(1, 1, 'Dashboard', 'admin', 'fas fa-fw fa-tachometer-alt', 1),
-(2, 2, 'My Profile', 'user', 'fas fa-fw fa-user', 1),
-(3, 2, 'Edit Profile', 'user/edit', 'fas fa-fw fa-user-edit', 1),
-(4, 3, 'Menu Management', 'menu', 'fas fa-fw fa-folder', 1),
-(5, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
-(7, 1, 'Role', 'admin/role', 'fas fa-fw fa-user-tie', 1),
-(8, 2, 'Change Password', 'user/changepassword', 'fas fa-fw fa-key', 1);
+(11, 2, 'Data Buku', 'user/book', 'fas fa-book', 1),
+(12, 2, 'Kategori', 'user/category', 'fas fa-swatchbook', 1),
+(14, 1, 'Impor Buku', 'Phpspreadsheet/import', 'fas fa-file-upload', 1),
+(15, 2, 'Peminjaman', 'user/history', 'fas fa-bookmark', 1),
+(16, 1, 'Member', 'admin', 'fas fa-users', 1),
+(17, 1, 'Pengembalian Buku', 'admin/return', 'fas fa-undo-alt', 1),
+(18, 1, 'Data Denda', 'admin/penalty', 'fas fa-money-bill-wave', 1);
 
 -- --------------------------------------------------------
 
@@ -143,8 +590,50 @@ CREATE TABLE `user_token` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `user_token`
+--
+
+INSERT INTO `user_token` (`id`, `email`, `token`, `date_created`) VALUES
+(2, 'ahmad.alexander86@yahoo.com', 'XBo+qfcRwXa2Mgd7TIdmCcKwkiPxYU4x2DtzUXlTeK4=', 1579856703),
+(4, 'genta0998@gmail.com', '9vKlmLCebIyy8f+48/dQeMTmwiVRIoQTcj1lI57vA8g=', 1580737654),
+(5, 'genta0998@gmail.com', 'KzxIpuUpJMJZHRizuatdjJrbob2W6Zb+5jVg3IhyPtM=', 1580737856),
+(6, 'genta0998@gmail.com', '6vAIF31GAFMgsjBr/15kFtLqGkxq7R/gwFJP5mEF/1s=', 1580738027),
+(7, 'genta0998@gmail.com', 'bzueehA5XIQ30jeS8zqIaccExUyO3qb+IZp7yqIWz3E=', 1580739644),
+(8, 'genta0998@gmail.com', 'VxjZ6WsHzrtGBITgaoGMNzFOZp02dwjIxoWV//jDaRI=', 1580739785);
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `book`
+--
+ALTER TABLE `book`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `book_category`
+--
+ALTER TABLE `book_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `book_status`
+--
+ALTER TABLE `book_status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `borrow`
+--
+ALTER TABLE `borrow`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `confirmation`
+--
+ALTER TABLE `confirmation`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
@@ -159,9 +648,27 @@ ALTER TABLE `user_access_menu`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_activation`
+--
+ALTER TABLE `user_activation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_detail`
+--
+ALTER TABLE `user_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_menu`
 --
 ALTER TABLE `user_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_organization`
+--
+ALTER TABLE `user_organization`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -187,10 +694,40 @@ ALTER TABLE `user_token`
 --
 
 --
+-- AUTO_INCREMENT for table `book`
+--
+ALTER TABLE `book`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=259;
+
+--
+-- AUTO_INCREMENT for table `book_category`
+--
+ALTER TABLE `book_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `book_status`
+--
+ALTER TABLE `book_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `borrow`
+--
+ALTER TABLE `borrow`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `confirmation`
+--
+ALTER TABLE `confirmation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
@@ -199,10 +736,28 @@ ALTER TABLE `user_access_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `user_activation`
+--
+ALTER TABLE `user_activation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user_detail`
+--
+ALTER TABLE `user_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `user_organization`
+--
+ALTER TABLE `user_organization`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -214,10 +769,10 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
