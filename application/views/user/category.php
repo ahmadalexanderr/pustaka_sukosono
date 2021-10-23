@@ -41,7 +41,7 @@
                         <th scope="row"><?= $i; ?></th>
                         <td><?= $c['category']; ?></td>
                         <td><?= $c['total']; ?></td>
-                        <?php if ($this->session->userdata('email') == 'pemdessukosono@gmail.com'){ ?>
+                        <?php if ($this->session->userdata('role_id') == 1){ ?>
                         <td>
                             <a href="<?= base_url('admin/category_edit/'.$c['id']) ;?>" class="badge badge-success">Edit</a>
                         </td>

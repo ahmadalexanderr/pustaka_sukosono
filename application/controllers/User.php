@@ -157,7 +157,7 @@ class User extends CI_Controller{
             $this->load->view('templates/topbar', $data);
             $this->load->view('auth/penalty', $data);
             $this->load->view('templates/footer'); 
-        } elseif ($result2 == 3) {
+        } elseif ($result2 >= 3) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
@@ -239,7 +239,7 @@ class User extends CI_Controller{
                  'book_id' => $this->input->post('book_id'),
                  'taken' => time(),
                  //'due'=> time() + (7 * 24 * 60 * 60),
-                 'due'=> time() + (60),
+                 'due'=> time() + (5),
                  'return' => 0,
                  'penalty' => 0
            ];
