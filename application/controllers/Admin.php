@@ -168,9 +168,9 @@ class Admin extends CI_Controller{
         $id = $this->uri->segment(3);
         $time = time();
         //$user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        if ($data['return'] > $data['due']){
-            if($user['organization_id'] <= 2){
-                $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 5000, confirm_id = 2 WHERE borrow.id = $id");
+        if ($data['return'] < $data['due']){
+            if($user['organization_id'] == 2){
+                $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 15000, confirm_id = 2 WHERE borrow.id = $id");
             } else {
                 $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 5000, confirm_id = 2 WHERE borrow.id = $id");
             }

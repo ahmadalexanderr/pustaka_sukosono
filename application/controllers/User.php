@@ -140,6 +140,7 @@ class User extends CI_Controller{
         $data['title'] = 'Data Buku';
         $data['user'] = $this->User_model->logged_user();
         $data['fee'] = $this->User_model->logged_penalty();
+        $time = time();
         $email = $this->session->userdata('email');
         $username = $this->session->userdata('username');
         $this->db->select("sum(w.penalty) as 'penalty'");
@@ -151,13 +152,15 @@ class User extends CI_Controller{
         $result = $query->row()->penalty;
         $query2 = $this->db->query("SELECT count(w.confirm_id) as rest FROM borrow as w INNER JOIN user as u ON w.email = u.email WHERE u.email = '$email' AND (u.organization_id = 1 OR u.organization_id = 2 ) AND (w.confirm_id = 4 OR w.confirm_id = 0) ");
         $result2 = $query2->row()->rest;
-        if ($result > 0){
+        $query3 = $this->db->query("SELECT w.due as duedate FROM borrow as w INNER JOIN user as u ON w.email = u.email WHERE u.email = '$email' AND (w.confirm_id = 4 OR w.confirm_id = 0) AND '$time' > w.due ")->result();
+        $result3 = $query3;
+        if (($result > 0) || ($result3) ) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('auth/penalty', $data);
             $this->load->view('templates/footer'); 
-        } elseif ($result2 >= 3) {
+        } elseif ($result2 == 3) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
@@ -238,8 +241,8 @@ class User extends CI_Controller{
                  'email' => $this->input->post('email'),
                  'book_id' => $this->input->post('book_id'),
                  'taken' => time(),
-                 //'due'=> time() + (7 * 24 * 60 * 60),
-                 'due' => time(),
+                 'due'=> time() + (1 * 24 * 60 * 60),
+//                  'due' => time(),
                  'return' => 0,
                  'penalty' => 0
            ];
