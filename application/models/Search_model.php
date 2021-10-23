@@ -69,10 +69,10 @@ class Search_model extends CI_Model{
         $this->db->from('user u');
         $this->db->join('user_activation as a', 'u.is_active = a.is_active', 'left');
         $this->db->join('user_menu m', 'u.role_id = m.id', 'left');
-        $this->db->where('u.email !=', 'pemdessukosono@gmail.com');
+        $this->db->where('u.role_id !=', 1);
         switch($search){
             case "":
-                $this->db->not_like('u.email', 'pemdessukosono@gmail.com');
+                $this->db->not_like('role_id', 1);
                 $this->db->not_like('u.email', $email);
             break;
 

@@ -239,7 +239,7 @@ class User extends CI_Controller{
                  'book_id' => $this->input->post('book_id'),
                  'taken' => time(),
                  //'due'=> time() + (7 * 24 * 60 * 60),
-                 'due'=> time() + (5),
+                 'due' => time(),
                  'return' => 0,
                  'penalty' => 0
            ];

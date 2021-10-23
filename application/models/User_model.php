@@ -14,7 +14,7 @@ class User_model extends CI_Model{
 
     public function all_user(){
         $email = $this->session->userdata('email');
-        $query = $this->db->query("SELECT u.id, name, email, image, date_created, activation, menu, u.is_active FROM user as u LEFT JOIN user_activation as a ON u.is_active = a.is_active LEFT JOIN user_menu as m ON u.role_id = m.id WHERE u.email !='pemdessukosono@gmail.com' AND u.email != '$email' ")->result_array();
+        $query = $this->db->query("SELECT u.id, name, email, image, date_created, activation, menu, u.is_active FROM user as u LEFT JOIN user_activation as a ON u.is_active = a.is_active LEFT JOIN user_menu as m ON u.role_id = m.id WHERE u.role_id != 1 AND u.email != '$email' ")->result_array();
         return $query;
     }
 
