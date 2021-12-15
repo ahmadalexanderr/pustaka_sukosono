@@ -15,22 +15,26 @@
             <?= $this->session->flashdata('message'); ?>
 
             <?= form_open("admin/searchmember"); ?>
+            <!-- <div class = "form-control form-control-user">
+
+            </div> -->
                 <select class="form-control form-control-user" name="search">
                     <!-- <option value="">Cari Berdasarkan</option> -->
                     <option value="name">Cari Berdasarkan: Nama</option>
                     <option value="email">Cari Berdasarkan: Email</option>
-                    <option value="date_created">Cari Berdasarkan: Tanggal Menjadi Anggota</option>
+                    <!-- <option value="date_created">Cari Berdasarkan: Tanggal Menjadi Anggota</option> -->
                     <option value="activation">Cari Berdasarkan: Status</option>
                     <option value="menu">Cari Berdasarkan: Hak Akses</option>
                 </select>
                 <input type="text" name="found" class="form-control form-control-user">
+                <!-- <div class="date">
+                    <center>
+                     <input type="text" name="from_date" id="from_date" class="col-md-3" placeholder="From Date" /> 
+                     <input type="text" name="to_date" id="to_date" class="col-md-3" placeholder="To Date" /> 
+                     </center>  
+                </div>  -->
                 <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
             <?= form_close(); ?>
-
-            <div class="date"><center>
-                   <input id="from_date" name="from_date" class="col-md-3" placeholder="From Date" /> 
-                   <input id="to_date" name="to_date" class="col-md-3" placeholder="To Date" />  
-            </center></div>
 
             <?php
                 if(isset($total)){
@@ -42,7 +46,7 @@
                 }
             ?>
              
-            <table class="table table-hover">
+            <table id="member_table" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -88,11 +92,34 @@
 </div>
 <!-- End of Main Content -->
 
-<script>
-    $(document).ready(function(){
-        $(function(){  
+<!-- <script>  
+      $(document).ready(function(){  
+           $.datepicker.setDefaults({  
+                dateFormat: 'yy-mm-dd'   
+           });  
+           $(function(){  
                 $("#from_date").datepicker();  
                 $("#to_date").datepicker();  
            });  
-    });
-</script>
+           $('#filter').click(function(){  
+                var from_date = $('#from_date').val();  
+                var to_date = $('#to_date').val();  
+                if(from_date != '' && to_date != '')  
+                {  
+                     $.ajax({  
+                          url:"<?= base_url('admin/searchmember'); ?>",  
+                          method:"POST",  
+                          data:{from_date:from_date, to_date:to_date},  
+                          success:function(data)  
+                          {  
+                               $('#member_table').html(data);  
+                          }  
+                     });  
+                }  
+                else  
+                {  
+                     alert("Please Select Date");  
+                }  
+           });  
+      });  
+ </script> -->

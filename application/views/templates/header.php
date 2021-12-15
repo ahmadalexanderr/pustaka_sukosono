@@ -21,9 +21,12 @@
     <!-- Custom for dateform -->
     <link href="<?= base_url('assets/'); ?>css/date-form.css" rel="stylesheet">
 
+    <!-- Datepicker -->
+    <link href="<?= base_url('assets/'); ?>bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet"> 
+    
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper"> 
+        
