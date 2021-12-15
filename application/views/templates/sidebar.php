@@ -27,12 +27,13 @@
 
 
             <!-- LOOPING MENU -->
+            
             <?php foreach ($menu as $m) : ?>
             <div class="sidebar-heading">
-                <?= $m['menu']; ?>
+                <?= $m['menu'];  ?>
             </div>
-
-            <!-- SIAPKAN SUB-MENU SESUAI MENU -->
+            
+            <!-- SUB-LOOPING DARI SUB-MENU SESUAI MENU -->
             <?php 
             $menuId = $m['id'];
             $querySubMenu = "SELECT *
@@ -54,8 +55,8 @@
                     <i class="<?= $sm['icon']; ?>"></i>
                     <span><?= $sm['title']; ?></span></a>
             </li>
+            
             <?php endforeach; ?>
-
             <hr class="sidebar-divider mt-3">
 
             <?php endforeach; ?>

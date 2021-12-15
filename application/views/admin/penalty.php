@@ -17,12 +17,11 @@
             
             <?= form_open("admin/searchpenalty"); ?>
                 <select class="form-control form-control-user" name="search">
-                    <option value="">Cari Berdasarkan</option>
-                    <option value="name">Peminjam</option>
-                    <option value="title">Judul Buku</option>
-                   
-                    <option value="return">Tanggal Pengembalian</option>
-                    <option value="confirm">Status</option>
+                    <!-- <option value="">Cari Berdasarkan</option> -->
+                    <option value="name">Cari Berdasarkan: Peminjam</option>
+                    <option value="title">Cari Berdasarkan: Judul Buku</option>  
+                    <!-- <option value="return_">Cari Berdasarkan: Tanggal Pengembalian</option> -->
+                    <option value="confirm">Cari Berdasarkan: Status</option>
                 </select>
                 <input type="text" name="found" class="form-control form-control-user">
                 <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
@@ -57,7 +56,11 @@
                         <td><?= $u['name']; ?></td>
                         <td><?= $u['title']; ?></td>
                         <td><?= "Rp ".number_format($u['fee'],0,',','.'); ?>,-</td>
-                        <td><?= date('d F Y', $u['return']); ?></td>
+                        <?php if ($u['return_'] != 0){ ?>
+                        <td><?= date('d F Y', $u['return_']); ?></td>
+                        <?php } else { ?>
+                            <td><center><?= "-" ?></center></td>
+                        <?php } ?>
                         <td><?= $u['confirm'] ?></td>
                         <?php if ($u['confirm_id'] == 2){ ?>
                         <td><a href="<?= base_url('admin/confirm_fee/'.$u['id']) ?>" class="badge badge-success">Konfirmasi Pelunasan</a></td>

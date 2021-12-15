@@ -12,28 +12,57 @@ class Admin extends CI_Controller{
     }
 
     public function index(){
-        $data['title'] = 'Member';
-        $data['user'] = $this->User_model->logged_user();
-        $data['all_user'] = $this->User_model->all_user();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/member', $data);
-        $this->load->view('templates/footer');
+        $email = $this->session->userdata('email');
+        $displayedUsers = $this->User_model->get_user($email);
+        if ($displayedUsers['email'] == 'mehmedalexanderr@gmail.com'){
+            $data['title'] = 'Member';
+            $data['user'] = $this->User_model->logged_user();
+            $data['all_users'] = $this->User_model->all_admins();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/member', $data);
+            $this->load->view('templates/footer');
+        }else{
+            $data['title'] = 'Member';
+            $data['user'] = $this->User_model->logged_user();
+            $data['all_users'] = $this->User_model->all_users();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/member', $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     public function searchmember(){
-        $data['title'] = 'Member';
-        $data['user'] = $this->User_model->logged_user();
-        $data['search'] = $this->input->post('search');
-        $data['found'] = $this->input->post('found');
-        $data['all_user'] = $this->Search_model->searchmember($data['search'], $data['found'])->result_array();
-        $data['total'] = count($data['all_user']); 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('admin/member', $data);
-        $this->load->view('templates/footer');
+        $email = $this->session->userdata('email');
+        $displayedUsers = $this->User_model->get_user($email);
+        if ($displayedUsers['email'] == 'mehmedalexanderr@gmail.com'){
+            $data['title'] = 'Member';
+            $data['user'] = $this->User_model->logged_user();
+            $data['search'] = $this->input->post('search');
+            $data['found'] = $this->input->post('found');
+            $data['all_users'] = $this->Search_model->searchadmins($data['search'], $data['found'])->result_array();
+            $data['total'] = count($data['all_users']); 
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/member', $data);
+            $this->load->view('templates/footer');
+        }else{
+            $data['title'] = 'Member';
+            $data['user'] = $this->User_model->logged_user();
+            $data['search'] = $this->input->post('search');
+            $data['found'] = $this->input->post('found');
+            $data['all_users'] = $this->Search_model->searchmembers($data['search'], $data['found'])->result_array();
+            $data['total'] = count($data['all_users']); 
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/member', $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     public function member(){
@@ -159,7 +188,7 @@ class Admin extends CI_Controller{
 
     public function unconfirm(){
         $id = $this->uri->segment(3);
-        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 1, borrow.penalty = 0, borrow.confirm_id = 0, borrow.return = 0 WHERE borrow.id = $id");
+        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 1, borrow.penalty = 0, borrow.confirm_id = 0, borrow.return_ = 0 WHERE borrow.id = $id");
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pengembalian Ditolak!</div>');
         redirect('admin/return'); 
     }
@@ -168,7 +197,7 @@ class Admin extends CI_Controller{
         $id = $this->uri->segment(3);
         $time = time();
         //$user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        if ($data['return'] > $data['due']){
+        if ($data['return_'] > $data['due']){
             if($user['organization_id'] == 2){
                 $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 0, borrow.penalty = 15000, confirm_id = 2 WHERE borrow.id = $id");
             } else {
@@ -205,6 +234,7 @@ class Admin extends CI_Controller{
         $data['search'] = $this->input->post('search');
         $data['found'] = $this->input->post('found');
         $data['record'] = $this->Search_model->searchpenalty($data['search'], $data['found'])->result_array();
+        //$data['feeName'] = $this->Search_model->getPenaltyName();
         $data['total'] = count($data['record']);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);

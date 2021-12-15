@@ -12,9 +12,15 @@ class User_model extends CI_Model{
         return $query;
     }
 
-    public function all_user(){
+    public function all_users(){
         $email = $this->session->userdata('email');
-        $query = $this->db->query("SELECT u.id, name, email, image, date_created, activation, menu, u.is_active FROM user as u LEFT JOIN user_activation as a ON u.is_active = a.is_active LEFT JOIN user_menu as m ON u.role_id = m.id WHERE u.role_id != 1 AND u.email != '$email' ")->result_array();
+        $query = $this->db->query("SELECT u.id, name, email, image, date_created, activation, menu, u.is_active FROM user as u LEFT JOIN user_activation as a ON u.is_active = a.is_active LEFT JOIN user_menu as m ON u.role_id = m.id WHERE u.email != 'mehmedalexanderr@gmail.com' AND u.email != '$email' AND u.role_id != 1 ORDER BY u.id DESC")->result_array();
+        return $query;
+    }
+
+    public function all_admins(){
+        $email = $this->session->userdata('email');
+        $query = $this->db->query("SELECT u.id, name, email, image, date_created, activation, menu, u.is_active FROM user as u LEFT JOIN user_activation as a ON u.is_active = a.is_active LEFT JOIN user_menu as m ON u.role_id = m.id WHERE u.email != 'mehmedalexanderr@gmail.com' AND u.email != '$email' ORDER BY u.id DESC")->result_array();
         return $query;
     }
 
@@ -60,7 +66,7 @@ class User_model extends CI_Model{
     }
 
     public function penalty(){
-        $query = $this->db->query("SELECT u.id, u.name, b.title, u.email, SUM(w.penalty) as fee, w.confirm_id, c.confirm, w.return FROM user as u INNER JOIN borrow as w ON w.email = u.email INNER JOIN confirmation as c ON c.confirm_id = w.confirm_id INNER JOIN book as b ON b.id = w.book_id WHERE w.confirm_id = 2 OR w.confirm_id = 3 GROUP BY u.id, u.name, u.email, c.confirm, w.confirm_id, w.return, b.title ORDER BY w.return DESC")->result_array();
+        $query = $this->db->query("SELECT u.id, u.name, b.title, u.email, SUM(w.penalty) as fee, w.id, w.confirm_id, c.confirm, w.return_ FROM user as u INNER JOIN borrow as w ON w.email = u.email INNER JOIN confirmation as c ON c.confirm_id = w.confirm_id INNER JOIN book as b ON b.id = w.book_id WHERE w.penalty > 0 AND (w.confirm_id = 2 OR w.confirm_id = 3) GROUP BY w.id, u.id, u.name, u.email, c.confirm, w.confirm_id, w.return_, b.title ORDER BY w.id DESC")->result_array();
         return $query;
     }
 }

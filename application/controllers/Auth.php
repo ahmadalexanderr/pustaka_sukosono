@@ -40,7 +40,7 @@ class Auth extends CI_Controller {
                         'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
-                    if ($user['role_id'] == 1) {
+                    if ($user['role_id'] != 2) {
                         redirect('admin');
                     } else {
                         redirect('user/book');
@@ -159,7 +159,7 @@ class Auth extends CI_Controller {
         $config = [
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_user' => 'ahmadalexanderr@gmail.com',
+            'smtp_user' => 'mehmedalexanderr@gmail.com',
             'smtp_pass' => 'sadiesinkcigaratte',
             'smtp_port' => 465,
             'mailtype'  => 'html',
@@ -169,7 +169,7 @@ class Auth extends CI_Controller {
 
         $this->email->initialize($config);
 
-        $this->email->from('ahmadalexanderr@gmail.com', 'Ahmad Alexander');
+        $this->email->from('mehmedalexanderr@gmail.com', 'Ahmad Alexander');
         $this->email->to($this->input->post('email'));
 
         if ($type == 'verify') {
@@ -267,6 +267,7 @@ class Auth extends CI_Controller {
 
     public function blocked(){
         $this->load->view('auth/blocked');
+        //$this->load->view('templates/footer');
     }
 
       public function resetPassword(){
@@ -351,7 +352,7 @@ class Auth extends CI_Controller {
                         'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
-                    if ($user['role_id'] == 1) {
+                    if ($user['role_id'] != 2) {
                         redirect('admin');
                     } else {
                         redirect('user/book');

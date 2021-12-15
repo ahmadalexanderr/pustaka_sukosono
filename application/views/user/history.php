@@ -15,13 +15,13 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-                   <?= form_open("user/searchhistory"); ?>
+                <?= form_open("user/searchhistory"); ?>
                 <select class="form-control form-control-user" name="search">
-                    <option value="">Cari Berdasarkan</option>
-                    <option value="title">Judul Buku</option>
-                    <option value="taken">Tanggal Peminjaman</option>
-                    <option value="due">Jatuh Tempo</option>
-                    <option value="confirm">Status</option>
+                    <!-- <option value="">Cari Berdasarkan</option> -->
+                    <option value="title">Cari Berdasarkan: Judul Buku</option>
+                    <!-- <option value="taken">Cari Berdasarkan: Tanggal Peminjaman</option>
+                    <option value="due">Cari Berdasarkan: Jatuh Tempo</option> -->
+                    <option value="confirm">Cari Berdasarkan: Status</option>
                 </select>
                 <input type="text" name="found" class="form-control form-control-user">
                 <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">
@@ -52,13 +52,22 @@
                     <?php $i = 1; ?>
                     <?php foreach ($record as $r) : ?>
                     <tr>
+                        
                         <th scope="row"><?= $i; ?></th>
                         <td><?= $r['title']; ?></td>
+                        <?php if ($r['taken'] != 0) { ?>
                         <td><?= date('d F Y', $r['taken']); ?></td>
+                        <?php } else { ?>
+                        <td><center><?=  " "; ?></center></td> 
+                        <?php } ?>
+                        <?php if ($r['due'] != 0) {   ?>
                         <td><?= date('d F Y', $r['due']); ?></td>
+                        <?php } else {?>
+                            <td><center><?=  " "; ?></center></td>
+                        <?php } ?>
                         <td><?= $r['confirm']; ?></td> 
                         <td>
-                        <?php if($r['return'] == 0 && $r['status_id'] == 1){ ?>
+                        <?php if($r['return_'] == 0 && $r['status_id'] == 1){ ?>
                             <a href="<?= base_url('user/return_book/'.$r['id']) ?>" class="badge badge-success">Kembalikan Buku</a>
                         <?php } else {?>
                             <?= "Rp ".number_format($r['penalty'],0,',','.'); ?>,-

@@ -24,11 +24,11 @@
             
             <?= form_open("user/searchbook"); ?>
                 <select class="form-control form-control-user" name="search">
-                    <option value="">Cari Berdasarkan</option>
-                    <option value="title">Judul Buku</option>
-                    <option value="author">Penulis</option>
-                    <option value="year">Tahun Terbit</option>
-                    <option value="category">Kategori</option>
+                    <!-- <option value="">Cari Berdasarkan</option> -->
+                    <option value="title">Cari Berdasarkan: Judul Buku</option>
+                    <option value="author">Cari Berdasarkan: Penulis</option>
+                    <option value="year">Cari Berdasarkan: Tahun Terbit</option>
+                    <option value="category">Cari Berdasarkan: Kategori</option>
                 </select>
                 <input type="text" name="found" class="form-control form-control-user">
                 <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">

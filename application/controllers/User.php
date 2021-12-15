@@ -242,8 +242,7 @@ class User extends CI_Controller{
                  'book_id' => $this->input->post('book_id'),
                  'taken' => time(),
                  'due'=> time() + (1 * 24 * 60 * 60),
-//                  'due' => time(),
-                 'return' => 0,
+                 'return_' => 0,
                  'penalty' => 0
            ];
            $this->db->insert('borrow', $data);
@@ -269,7 +268,7 @@ class User extends CI_Controller{
     public function return_book(){
         $time = time();
         $id = $this->uri->segment(3);
-        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return = $time, borrow.confirm_id = 4 WHERE borrow.id = $id");
+        $this->db->query("UPDATE book INNER JOIN borrow ON borrow.book_id = book.id SET book.status_id = 2, borrow.return_ = $time, borrow.confirm_id = 4 WHERE borrow.id = $id");
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Menunggu Konfirmasi Pengembalian Buku</div>');
         redirect('user/history');
     }

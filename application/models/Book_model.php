@@ -18,7 +18,7 @@ class Book_model extends CI_Model{
     }
 
     public function book_data(){
-        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id ORDER BY c.category, b.year, b.title DESC")->result_array();
+        $query = $this->db->query("SELECT b.*, c.category, s.status FROM book as b LEFT JOIN book_category as c ON b.category_id = c.id LEFT JOIN book_status as s ON b.status_id = s.status_id ORDER BY b.id DESC")->result_array();
         return $query;
     }
 
@@ -49,12 +49,13 @@ class Book_model extends CI_Model{
 
     public function get_borrowed(){
         $email = $this->session->userdata('email');
-        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, w.return, b.status_id, w.penalty, u.organization_id, w.confirm_id, c.confirm FROM user as u LEFT JOIN borrow as w ON u.email = w.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE w.email = '$email' ORDER BY w.id DESC")->result_array();
+        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, w.return_, b.status_id, w.penalty, u.organization_id, w.confirm_id, c.confirm FROM user as u LEFT JOIN borrow as w ON u.email = w.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE u.email = '$email' ORDER BY w.id DESC")->result_array();
         return $query;
     }
 
     public function return_book(){
-        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, u.name, w.return, w.confirm_id, c.confirm, w.penalty, b.status_id FROM borrow as w LEFT JOIN user as u ON w.email = u.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE b.status_id = 2 AND w.confirm_id = 4 ORDER BY w.id DESC")->result_array();
+        //$query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, u.name, w.return_, w.confirm_id, c.confirm, w.penalty, b.status_id FROM borrow as w LEFT JOIN user as u ON w.email = u.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id WHERE b.status_id = 2 AND w.confirm_id = 4 ORDER BY w.id DESC")->result_array();
+        $query = $this->db->query("SELECT w.id, b.title, w.taken, w.due, u.name, w.return_, w.confirm_id, c.confirm, w.penalty, b.status_id FROM borrow as w LEFT JOIN user as u ON w.email = u.email LEFT JOIN book as b ON b.id = w.book_id LEFT JOIN confirmation as c ON w.confirm_id = c.confirm_id ORDER BY w.id DESC")->result_array();
         return $query;
     }
 
