@@ -29,8 +29,8 @@
                 <input type="text" name="found" class="form-control form-control-user">
                 <!-- <div class="date">
                     <center>
-                     <input type="text" name="from_date" id="from_date" class="col-md-3" placeholder="From Date" /> 
-                     <input type="text" name="to_date" id="to_date" class="col-md-3" placeholder="To Date" /> 
+                     <input type="date" name="from_date" id="from_date" class="col-md-3" placeholder="From Date" /> 
+                     <input type="date" name="to_date" id="to_date" class="col-md-3" placeholder="To Date" /> 
                      </center>  
                 </div>  -->
                 <input type="submit" value="Search" class="btn btn-primary btn-user btn-block">

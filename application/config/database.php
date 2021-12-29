@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'localhost:8889',	
 	'username' => 'root',
 	'password' => 'sadiesink19',
 	'database' => 'pustaka_sukosono',
