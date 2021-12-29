@@ -21,7 +21,6 @@
                 <?= validation_errors(); ?>
             </div>
             <?php endif; ?>
-            
             <?= form_open("user/searchbook"); ?>
                 <select class="form-control form-control-user" name="search">
                     <!-- <option value="">Cari Berdasarkan</option> -->
